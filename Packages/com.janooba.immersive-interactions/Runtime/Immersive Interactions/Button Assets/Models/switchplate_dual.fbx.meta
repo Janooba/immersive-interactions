@@ -1,0 +1,203 @@
+fileFormatVersion: 2
+guid: 95fc92ef50dadeb48b0803e55c4a230c
+ModelImporter:
+  serializedVersion: 19301
+  internalIDToNameTable:
+  - first:
+      74: 4738786457314883536
+    second: SwitchPlate_Buttons_Base|BumperAction
+  - first:
+      74: -3354633281820963478
+    second: SwitchPlate_Buttons_Base|LightSwitch_Base.001Action
+  - first:
+      74: -9015974371539826313
+    second: SwitchPlate_Buttons_Base|SquareButton.001Action
+  - first:
+      74: -5208311843517385178
+    second: SwitchPlate_Buttons_Base|SquareButton_BaseAction
+  - first:
+      74: -4327607589052577391
+    second: SwitchPlate_Buttons_Base|SquareButtonAction
+  - first:
+      74: 8364523757590978549
+    second: SwitchPlate_Buttons_Base|SquareButtonAction.001
+  - first:
+      74: 8731567040299507423
+    second: SwitchPlate_Buttons_Base|SwitchPlate_Buttons.001Action
+  - first:
+      74: 7468395549432296003
+    second: SwitchPlate_Buttons_Base|SwitchPlate_Buttons.002Action
+  - first:
+      74: 3446414129057085168
+    second: SwitchPlate_Button01|BumperAction
+  - first:
+      74: -4713305249143411916
+    second: SwitchPlate_Button01|LightSwitch_Base.001Action
+  - first:
+      74: 4240336946128780903
+    second: SwitchPlate_Button01|SquareButton.001Action
+  - first:
+      74: 2569256819708279928
+    second: SwitchPlate_Button01|SquareButton_BaseAction
+  - first:
+      74: 668834491365438403
+    second: SwitchPlate_Button01|SquareButtonAction
+  - first:
+      74: -1286862172033472794
+    second: SwitchPlate_Button01|SquareButtonAction.001
+  - first:
+      74: 7500776421611713301
+    second: SwitchPlate_Button01|SwitchPlate_Buttons.001Action
+  - first:
+      74: -6874528975306523370
+    second: SwitchPlate_Button01|SwitchPlate_Buttons.002Action
+  - first:
+      74: 6519450807195668489
+    second: SwitchPlate_Button02|BumperAction
+  - first:
+      74: 848132998284314634
+    second: SwitchPlate_Button02|LightSwitch_Base.001Action
+  - first:
+      74: -3405634565202194811
+    second: SwitchPlate_Button02|SquareButton.001Action
+  - first:
+      74: -828356219127088743
+    second: SwitchPlate_Button02|SquareButton_BaseAction
+  - first:
+      74: 6826148488287466235
+    second: SwitchPlate_Button02|SquareButtonAction
+  - first:
+      74: -1587749942591609648
+    second: SwitchPlate_Button02|SquareButtonAction.001
+  - first:
+      74: 1322260287001071986
+    second: SwitchPlate_Button02|SwitchPlate_Buttons.001Action
+  - first:
+      74: 3014386154611863433
+    second: SwitchPlate_Button02|SwitchPlate_Buttons.002Action
+  - first:
+      74: 7623924701595710792
+    second: SwitchPlate_DualButtons_Base|BumperAction
+  - first:
+      74: 6114840219374339444
+    second: SwitchPlate_DualButtons_Base|LightSwitch_Base.001Action
+  - first:
+      74: 6265470735316177057
+    second: SwitchPlate_DualButtons_Base|SquareButton.001Action
+  - first:
+      74: 2864544563508143353
+    second: SwitchPlate_DualButtons_Base|SquareButton_BaseAction
+  - first:
+      74: -2698451497207820827
+    second: SwitchPlate_DualButtons_Base|SquareButtonAction
+  - first:
+      74: 6191914870111361213
+    second: SwitchPlate_DualButtons_Base|SquareButtonAction.001
+  - first:
+      74: 3273202147515466122
+    second: SwitchPlate_DualButtons_Base|SwitchPlate_Buttons.001Action
+  - first:
+      74: -1527887941694459961
+    second: SwitchPlate_DualButtons_Base|SwitchPlate_Buttons.002Action
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_ButtonBase
+    second: {fileID: 2100000, guid: 2496c0347276a7143aa92eb6c64c6e51, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mat_button
+    second: {fileID: 2100000, guid: a8f1c311ed974d1469ca123b12af5584, type: 2}
+  materials:
+    materialImportMode: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

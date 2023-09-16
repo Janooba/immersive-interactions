@@ -1,0 +1,215 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9182222689952294259
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.4987
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.0031984
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3.1559348
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1209170999860963886, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: cooldown
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: inTint.b
+      value: 0.21960784
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: inTint.g
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: inTint.r
+      value: 0.5568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: onTint.b
+      value: 0.500154
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: onTint.g
+      value: 2.7905025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: onTint.r
+      value: 3.2941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: applyTint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: offTint.b
+      value: 0.03529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: offTint.g
+      value: 0.29411766
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: offTint.r
+      value: 0.08235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: playAudio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: buttonRenderer
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: isToggleButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: sendPressedEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: sendDepressedEvent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: udonReceivers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1679121258200419784, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: udonReceivers.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1984968350632702100, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: m_Name
+      value: Toggle Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134195026008135043, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: isToggleButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134195026008135043, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4134195026008135043, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+    - target: {fileID: 6277939137856236620, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: _skeletonInfo
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277939137856236620, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: isToggleButton
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277939137856236620, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: buttonThickness
+      value: 0.018
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277939137856236620, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: cached_bottom.y
+      value: 0.025526416
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277939137856236620, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: cached_toggleTop.y
+      value: 0.033626415
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277939137856236620, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6277939137856236620, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+    - target: {fileID: 6755418470973796582, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 6755418470973796582, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9ae04ab0d25ebae468ac19c10b3003ce, type: 3}
