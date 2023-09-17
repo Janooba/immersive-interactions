@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: Button_ToggleGameObject
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 6220e7b4c15eb094786b35f25be10a26,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: c379336f9cb5faa4faa5e54940a6078a,
     type: 2}
   udonAssembly: 
   assemblyError: 
