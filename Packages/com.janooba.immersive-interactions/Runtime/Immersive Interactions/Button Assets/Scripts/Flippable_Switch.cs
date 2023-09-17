@@ -345,10 +345,10 @@ namespace JanoobaAssets.ImmersiveInteractions
                     // Unpress
                     if (networkSync)
                     {
-                        SendCustomNetworkEvent(NetworkEventTarget.All, nameof(_Released));
+                        SendCustomNetworkEvent(NetworkEventTarget.All, nameof(Released));
                     }
                     else
-                        _Released();
+                        Released();
                 }
 
                 if (_penetration == 0 && !IdleCollidersExist())
@@ -590,12 +590,12 @@ namespace JanoobaAssets.ImmersiveInteractions
             }
         }
 
-        private void NonVR_Release()
+        public void NonVR_Release()
         {
             _fallbackPress = false;
         }
 
-        private void Pressed(bool isToggledOn)
+        public void Pressed(bool isToggledOn)
         {
             if (_sleeping)
             {
@@ -636,7 +636,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             ApplyTexture();
         }
 
-        private void _Released()
+        public void Released()
         {
             if (_sleeping)
             {
