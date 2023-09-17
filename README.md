@@ -41,9 +41,9 @@ If you’d like to test out the system yourself, join the following world: [Imme
 
 ## Quick Start
 
-1. Drag the PlayerSkeletonInfo prefab located in `Packages/Immersive Interactions/Runtime/Immersive Interactions/PlayerSkeletonInfo` into your scene.
+1. Drag the PlayerSkeletonInfo prefab located in `Packages/Immersive Interactions/Runtime/PlayerSkeletonInfo` into your scene.
 1. Ensure the Bone Prefab is set.
-1. Drag one of the button prefabs located in `Packages/Immersive Interactions/Runtime/Immersive Interactions/Button Prefabs` into your scene.
+1. Drag one of the button prefabs located in `Packages/Immersive Interactions/Runtime/Button Prefabs` into your scene.
 1. Once positioned where you’d like, select the child object with a **Pressable_Button** or **Flippable_Switch** component on it.
 1. Click **Find Nearby Colliders To Ignore** under **// RUNTIME & DETECTION**. This will make sure the button doesn’t get stuck in the wall or objects behind it. If this still happens, you may have to manually add the collider to the **Ignored Colliders** list.
 1. Scroll to the **// EVENTS** section and add something to the list of receivers.
