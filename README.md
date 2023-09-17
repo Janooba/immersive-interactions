@@ -1,4 +1,4 @@
-![Immersive Interactions Banner](https://github.com/Janooba/immersive-interactions/blob/main/Website/banner.png?raw=true)
+[<img src='https://github.com/Janooba/immersive-interactions/blob/main/Website/banner.png?raw=true'/>](#)
 
 [<img height='36' src='https://cdn.ko-fi.com/cdn/kofi5.png?v=2' alt='Support the project at ko-fi.com' />](https://ko-fi.com/Z8Z4PAAFY)
 
@@ -6,9 +6,27 @@
 
 This project aims to provide the most comprehensive and physically accurate buttons and switches on the VRChat market.
 
-Documentation for the Immersive Interactions package can be found [here](https://docs.google.com/document/d/1okMFHb6yietf2g4nO5SxbSJP94q_d9qgWeNA-ezVXew/edit?usp=sharing).
+## Accurately tracked hands!
+https://github.com/Janooba/immersive-interactions/assets/17034238/4ae79dc1-2825-4e8b-9085-6d35e09e4d92
 
-If you’d like to test out the system, join the following world: [Immersive Interactions](https://vrchat.com/home/world/wrld_925c0e94-a683-4100-8696-7b289becf392)
+## Physics enabled!
+https://github.com/Janooba/immersive-interactions/assets/17034238/e33fb93e-ba72-4b69-b77c-51325777a50f
+
+## Flippable switches!
+https://github.com/Janooba/immersive-interactions/assets/17034238/2b94e1f5-01ff-4731-8154-41bc1e7ca1ea
+
+## Pushable buttons!
+https://github.com/Janooba/immersive-interactions/assets/17034238/40ce9fa2-2134-44a7-9257-7540197a9bc1
+
+## Buttons on physics objects!?
+https://github.com/Janooba/immersive-interactions/assets/17034238/bf1fea51-ae7a-4470-8f29-b3bc9d6ec2ec
+
+## Comes with a variety of prefabs
+https://github.com/Janooba/immersive-interactions/assets/17034238/1714cb18-a66b-480f-8a4a-daf4bb6b926e
+
+Online documentation for the Immersive Interactions package can be found [here](https://docs.google.com/document/d/1okMFHb6yietf2g4nO5SxbSJP94q_d9qgWeNA-ezVXew/edit?usp=sharing).
+
+If you’d like to test out the system yourself, join the following world: [Immersive Interactions](https://vrchat.com/home/world/wrld_925c0e94-a683-4100-8696-7b289becf392)
 
 ## Dependencies
 
