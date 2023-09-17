@@ -6,6 +6,17 @@
 
 This project aims to provide the most comprehensive and physically accurate buttons and switches on the VRChat market.
 
+## Dependencies
+
+- Udon Sharp
+- TextMeshPro (for debugging)
+
+## Installation
+
+- Add this project to VCC with this url `https://Janooba.github.io/immersive-interactions/index.json` or by clicking the Add to VCC button here [Here](https://janooba.github.io/immersive-interactions/)
+
+- Alternatively, check out the [Releases](https://github.com/Janooba/immersive-interactions/releases) page for old-school package access.
+
 ## Accurately tracked hands!
 https://github.com/Janooba/immersive-interactions/assets/17034238/4ae79dc1-2825-4e8b-9085-6d35e09e4d92
 
@@ -27,17 +38,6 @@ https://github.com/Janooba/immersive-interactions/assets/17034238/1714cb18-a66b-
 Online documentation for the Immersive Interactions package can be found [here](https://docs.google.com/document/d/1okMFHb6yietf2g4nO5SxbSJP94q_d9qgWeNA-ezVXew/edit?usp=sharing).
 
 If you’d like to test out the system yourself, join the following world: [Immersive Interactions](https://vrchat.com/home/world/wrld_925c0e94-a683-4100-8696-7b289becf392)
-
-## Dependencies
-
-- Udon Sharp
-- TextMeshPro (for debugging)
-
-## Installation
-
-- Add this project to VCC with this url `https://Janooba.github.io/immersive-interactions/index.json` or by clicking the Add to VCC button here [Here](https://janooba.github.io/immersive-interactions/)
-
-- Alternatively, check out the [Releases](https://github.com/Janooba/immersive-interactions/releases) page for old-school package access.
 
 ## Quick Start
 
