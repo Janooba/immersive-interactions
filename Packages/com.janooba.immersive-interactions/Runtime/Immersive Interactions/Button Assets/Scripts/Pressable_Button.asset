@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: Pressable_Button
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 27615a66a602fc7478d4b52d67e35cfb,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 52f77438c00d66b49991470be5282703,
     type: 2}
   udonAssembly: 
   assemblyError: 
@@ -3461,7 +3461,7 @@ MonoBehaviour:
       Data: 179|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: PlayerSkeletonInfo, Assembly-CSharp
+      Data: PlayerSkeletonInfo, immersive-interactions
     - Name: 
       Entry: 8
       Data: 
@@ -4005,7 +4005,7 @@ MonoBehaviour:
       Data: 208|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: PlayerBone[], Assembly-CSharp
+      Data: PlayerBone[], immersive-interactions
     - Name: 
       Entry: 8
       Data: 

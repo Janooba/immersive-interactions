@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: PlayerSkeletonInfo
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 993b1ae33ef725f40a890d8de7cf2470,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: bc66175e92a9a2b42b21cca0da1be95f,
     type: 2}
   udonAssembly: 
   assemblyError: 
@@ -521,7 +521,7 @@ MonoBehaviour:
       Data: 25|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: PlayerBone, Assembly-CSharp
+      Data: PlayerBone, immersive-interactions
     - Name: 
       Entry: 8
       Data: 
@@ -1301,7 +1301,7 @@ MonoBehaviour:
       Data: 59|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: PlayerBone[], Assembly-CSharp
+      Data: PlayerBone[], immersive-interactions
     - Name: 
       Entry: 8
       Data: 

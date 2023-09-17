@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: Flippable_Switch
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: ad0cd281e9dd3784cb28b7c6ce6778ec,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 3e1ef848f87d6f445ae1f08fb7f97226,
     type: 2}
   udonAssembly: 
   assemblyError: 
@@ -3220,7 +3220,7 @@ MonoBehaviour:
       Data: 165|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: PlayerSkeletonInfo, Assembly-CSharp
+      Data: PlayerSkeletonInfo, immersive-interactions
     - Name: 
       Entry: 8
       Data: 
@@ -3703,7 +3703,7 @@ MonoBehaviour:
       Data: 190|System.RuntimeType, mscorlib
     - Name: 
       Entry: 1
-      Data: PlayerBone[], Assembly-CSharp
+      Data: PlayerBone[], immersive-interactions
     - Name: 
       Entry: 8
       Data: 
