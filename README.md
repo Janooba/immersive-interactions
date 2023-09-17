@@ -6,6 +6,10 @@
 
 This project aims to provide the most comprehensive and physically accurate buttons and switches on the VRChat market.
 
+Online documentation for the Immersive Interactions package can be found [here](https://docs.google.com/document/d/1okMFHb6yietf2g4nO5SxbSJP94q_d9qgWeNA-ezVXew/edit?usp=sharing).
+
+If you’d like to test out the system yourself, join the following world: [Immersive Interactions](https://vrchat.com/home/world/wrld_925c0e94-a683-4100-8696-7b289becf392)
+
 ## Dependencies
 
 - Udon Sharp
@@ -34,10 +38,6 @@ https://github.com/Janooba/immersive-interactions/assets/17034238/bf1fea51-ae7a-
 
 ## Comes with a variety of prefabs
 https://github.com/Janooba/immersive-interactions/assets/17034238/1714cb18-a66b-480f-8a4a-daf4bb6b926e
-
-Online documentation for the Immersive Interactions package can be found [here](https://docs.google.com/document/d/1okMFHb6yietf2g4nO5SxbSJP94q_d9qgWeNA-ezVXew/edit?usp=sharing).
-
-If you’d like to test out the system yourself, join the following world: [Immersive Interactions](https://vrchat.com/home/world/wrld_925c0e94-a683-4100-8696-7b289becf392)
 
 ## Quick Start
 
