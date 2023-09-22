@@ -1,7 +1,7 @@
 {
   "name": "com.janooba.immersive-interactions",
   "displayName": "Immersive Interactions",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "This project aims to provide the most comprehensive and physically accurate buttons and switches on the VRChat market.",
   "gitDependencies": {},
   "vpmDependencies": {
@@ -15,6 +15,8 @@
   "legacyFiles": {},
   "localPath": "D:\\Projects\\VRChat\\ImmersiveInteractionsPublic\\Packages\\immersive-interactions",
   "dependencies": {
-    "com.vrchat.udonsharp": "1.1.9"
+    "com.vrchat.udonsharp": "1.1.9",
+    "com.vrchat.worlds": "3.3.0",
+    "com.vrchat.base": "3.3.0"
   }
 }

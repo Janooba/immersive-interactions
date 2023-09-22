@@ -5,7 +5,9 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.vrchat.udonsharp": "1.1.9"
+        "com.vrchat.udonsharp": "1.1.9",
+        "com.vrchat.worlds": "3.3.0",
+        "com.vrchat.base": "3.3.0"
       }
     },
     "com.unity.burst": {
