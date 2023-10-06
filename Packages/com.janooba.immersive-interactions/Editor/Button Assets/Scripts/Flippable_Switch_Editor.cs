@@ -140,6 +140,8 @@ namespace JanoobaAssets.ImmersiveInteractions
             Shared_EditorUtility.DrawMainHeader(logo, target);
             serializedObject.Update();
 
+            EditorGUI.BeginChangeCheck();
+            
             if (flippableSwitch.MissingSkeletonInfo)
                 EditorGUILayout.HelpBox("No Player Skeleton Info found. This is a required component for player interactions!", MessageType.Error);
             
@@ -373,6 +375,11 @@ namespace JanoobaAssets.ImmersiveInteractions
             text += $"Progress: {flippableSwitch.CurrentUnitProgress}\n";
             text += $"Sleeping: {flippableSwitch.IsSleeping}\n";
             EditorGUILayout.HelpBox(text, MessageType.None);
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(flippableSwitch);
+            }
             
             serializedObject.ApplyModifiedProperties();
 
