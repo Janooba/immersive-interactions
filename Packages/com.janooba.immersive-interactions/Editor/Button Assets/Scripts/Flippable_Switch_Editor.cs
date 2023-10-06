@@ -140,6 +140,8 @@ namespace JanoobaAssets.ImmersiveInteractions
             Shared_EditorUtility.DrawMainHeader(logo, target);
             serializedObject.Update();
 
+            EditorGUI.BeginChangeCheck();
+            
             if (flippableSwitch.MissingSkeletonInfo)
                 EditorGUILayout.HelpBox("No Player Skeleton Info found. This is a required component for player interactions!", MessageType.Error);
             
@@ -246,6 +248,21 @@ namespace JanoobaAssets.ImmersiveInteractions
             
                 EditorGUILayout.HelpBox(eventsToSend, MessageType.Info, true);
                 EditorGUILayout.PropertyField(udonReceivers);
+                
+                for (int i = 0; i < flippableSwitch.udonReceivers.Length; i++)
+                {
+                    if (flippableSwitch.udonReceivers[i] == null)
+                    {
+                        EditorGUILayout.HelpBox($"Null reference in receivers for switch {flippableSwitch.transform.parent.name}. Would you like to clean them up?", MessageType.Error);
+                        if (GUILayout.Button("Clean Up Nulls"))
+                        {
+                            flippableSwitch.udonReceivers = flippableSwitch.udonReceivers.Where(x => x != null).ToArray();
+                            EditorUtility.SetDirty(flippableSwitch);
+                            serializedObject.ApplyModifiedProperties();
+                        }
+                        break;
+                    }
+                }
             }
 
             EditorGUILayout.Space(12);
@@ -358,6 +375,11 @@ namespace JanoobaAssets.ImmersiveInteractions
             text += $"Progress: {flippableSwitch.CurrentUnitProgress}\n";
             text += $"Sleeping: {flippableSwitch.IsSleeping}\n";
             EditorGUILayout.HelpBox(text, MessageType.None);
+            
+            if (EditorGUI.EndChangeCheck())
+            {
+                EditorUtility.SetDirty(flippableSwitch);
+            }
             
             serializedObject.ApplyModifiedProperties();
 

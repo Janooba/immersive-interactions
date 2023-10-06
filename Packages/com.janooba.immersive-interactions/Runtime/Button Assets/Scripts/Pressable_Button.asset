@@ -2853,8 +2853,8 @@ MonoBehaviour:
       Data: 143|UnityEngine.TooltipAttribute, UnityEngine.CoreModule
     - Name: tooltip
       Entry: 1
-      Data: 'Will send the above events to all receiversNote: If button is set to
-        toggleable, "_On" and "_Off" will optionally be appended.'
+      Data: 'Will send the above events to all UdonBehaviours in this listNote: If
+        button is set to toggleable, "_On" and "_Off" will optionally be appended.'
     - Name: 
       Entry: 8
       Data: 
