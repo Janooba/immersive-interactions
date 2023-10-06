@@ -9544,7 +9544,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 866085835586559336, guid: dd550eaf7c0e7774c8607b1fca7774fe, type: 3}
+    - {fileID: 866085835586559337, guid: dd550eaf7c0e7774c8607b1fca7774fe, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dd550eaf7c0e7774c8607b1fca7774fe, type: 3}
 --- !u!4 &871251050 stripped
 Transform:
@@ -20115,6 +20117,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4134195026008135043, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
         type: 3}
+      propertyPath: udonReceivers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4134195026008135043, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
+        type: 3}
       propertyPath: ignoredColliders.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -20122,7 +20129,7 @@ PrefabInstance:
         type: 3}
       propertyPath: udonReceivers.Array.data[0]
       value: 
-      objectReference: {fileID: 1328882731}
+      objectReference: {fileID: 0}
     - target: {fileID: 4134195026008135043, guid: 9ae04ab0d25ebae468ac19c10b3003ce,
         type: 3}
       propertyPath: ignoredColliders.Array.data[0]
@@ -27367,7 +27374,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 866085835586559337, guid: dd550eaf7c0e7774c8607b1fca7774fe, type: 3}
+    - {fileID: 866085835586559336, guid: dd550eaf7c0e7774c8607b1fca7774fe, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dd550eaf7c0e7774c8607b1fca7774fe, type: 3}
 --- !u!114 &6277939136685036849
 MonoBehaviour:

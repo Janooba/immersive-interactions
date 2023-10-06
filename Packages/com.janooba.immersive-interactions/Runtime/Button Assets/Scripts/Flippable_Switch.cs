@@ -119,8 +119,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         [Tooltip("Send stateless events even if this is a toggle button (Without \"_On\" and \"_Off\")")]
         public bool forceSendStateless;
 
-        [Tooltip("Will send \"Button_PressedSuffix\" and \"Button_DepressedSuffix\" to all receivers, as well as Suffix-less." +
-                 "Note: If button is set to toggleable, \"_On\" and \"_Off\" will be inserted before the suffix.")]
+        [Tooltip("Will send the above events to all UdonBehaviours in this list." +
+                 "Note: If switch is set to toggleable, \"_On\" and \"_Off\" will optionally be appended.")]
         public UdonBehaviour[] udonReceivers;
 
         // PRIVATE DECLARATIONS //
