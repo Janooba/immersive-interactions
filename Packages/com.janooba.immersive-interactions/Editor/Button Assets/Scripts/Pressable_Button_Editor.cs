@@ -254,6 +254,21 @@ namespace JanoobaAssets.ImmersiveInteractions
             
                 EditorGUILayout.HelpBox(eventsToSend, MessageType.Info, true);
                 EditorGUILayout.PropertyField(udonReceivers);
+
+                for (int i = 0; i < button.udonReceivers.Length; i++)
+                {
+                    if (button.udonReceivers[i] == null)
+                    {
+                        EditorGUILayout.HelpBox($"Null reference in receivers for button {button.transform.parent.name}. Would you like to clean them up?", MessageType.Error);
+                        if (GUILayout.Button("Clean Up Nulls"))
+                        {
+                            button.udonReceivers = button.udonReceivers.Where(x => x != null).ToArray();
+                            EditorUtility.SetDirty(button);
+                            serializedObject.ApplyModifiedProperties();
+                        }
+                        break;
+                    }
+                }
             }
 
             EditorGUILayout.Space(12);

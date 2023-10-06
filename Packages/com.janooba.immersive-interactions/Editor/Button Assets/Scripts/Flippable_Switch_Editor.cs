@@ -246,6 +246,21 @@ namespace JanoobaAssets.ImmersiveInteractions
             
                 EditorGUILayout.HelpBox(eventsToSend, MessageType.Info, true);
                 EditorGUILayout.PropertyField(udonReceivers);
+                
+                for (int i = 0; i < flippableSwitch.udonReceivers.Length; i++)
+                {
+                    if (flippableSwitch.udonReceivers[i] == null)
+                    {
+                        EditorGUILayout.HelpBox($"Null reference in receivers for switch {flippableSwitch.transform.parent.name}. Would you like to clean them up?", MessageType.Error);
+                        if (GUILayout.Button("Clean Up Nulls"))
+                        {
+                            flippableSwitch.udonReceivers = flippableSwitch.udonReceivers.Where(x => x != null).ToArray();
+                            EditorUtility.SetDirty(flippableSwitch);
+                            serializedObject.ApplyModifiedProperties();
+                        }
+                        break;
+                    }
+                }
             }
 
             EditorGUILayout.Space(12);
