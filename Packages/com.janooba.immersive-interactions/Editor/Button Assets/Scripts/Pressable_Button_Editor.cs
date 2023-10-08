@@ -27,6 +27,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private SerializedProperty returnRate;
         private SerializedProperty cooldown;
+        private SerializedProperty limitBackpress;
 
         private SerializedProperty isToggleButton;
         private SerializedProperty startToggledOn;
@@ -91,6 +92,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
             returnRate = serializedObject.FindProperty(nameof(Pressable_Button.returnRate));
             cooldown = serializedObject.FindProperty(nameof(Pressable_Button.cooldown));
+            limitBackpress = serializedObject.FindProperty(nameof(Pressable_Button.limitBackpressing));
 
             isToggleButton = serializedObject.FindProperty(nameof(Pressable_Button.isToggleButton));
             startToggledOn = serializedObject.FindProperty(nameof(Pressable_Button.startToggledOn));
@@ -194,6 +196,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(cooldown);
             EditorGUILayout.PropertyField(returnRate);
+            EditorGUILayout.PropertyField(limitBackpress);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(isToggleButton);
 

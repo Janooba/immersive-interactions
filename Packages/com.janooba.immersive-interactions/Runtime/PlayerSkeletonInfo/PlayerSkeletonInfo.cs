@@ -198,8 +198,8 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
     private void UpdateAllBonePositions()
     {
         // Update positions here
-        if (includeHead) UpdateBonePosition(bone_head, HumanBodyBones.Head, PlayerBone.SIZE_RATIO_HEAD);
-        if (includeHips) UpdateBonePosition(bone_hip, HumanBodyBones.Hips, PlayerBone.SIZE_RATIO_HIP);
+        if (includeHead) UpdateHeadPosition(bone_head);
+        if (includeHips) UpdateHipPosition(bone_hip);
 
         // Left Hand
         UpdateFingerPosition(bone_left_indexFinger, HumanBodyBones.LeftIndexProximal, HumanBodyBones.LeftIndexIntermediate, HumanBodyBones.LeftIndexDistal);
@@ -276,10 +276,35 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
         }
     }
 
-    private void UpdateBonePosition(PlayerBone playerBone, HumanBodyBones bodyBone, float sizeRatio)
+    private void UpdateHeadPosition(PlayerBone playerBone)
     {
         var boneTransform = playerBone.transform;
-        var bonePos = Networking.LocalPlayer.GetBonePosition(bodyBone);
+        var headPos = Networking.LocalPlayer.GetBonePosition(HumanBodyBones.Head);
+        var neckPos = Networking.LocalPlayer.GetBonePosition(HumanBodyBones.Neck);
+        var headUp = (headPos - neckPos).normalized;
+
+        // if (near) zero, bone doesnt exist
+        if (headPos.sqrMagnitude < 0.0001f)
+        {
+            SetValid(boneTransform, false);
+            return;
+        }
+
+        if (_recalcSize)
+        {
+            RecalculateBoneSize(playerBone, headPos, headPos, PlayerBone.SIZE_RATIO_HEAD);
+        }
+        
+        // Move the head up a bit to account for the neck
+        headPos += headUp * (playerBone.sphere.radius * 0.5f);
+        boneTransform.position = headPos;
+        SetValid(boneTransform, true);
+    }
+    
+    private void UpdateHipPosition(PlayerBone playerBone)
+    {
+        var boneTransform = playerBone.transform;
+        var bonePos = Networking.LocalPlayer.GetBonePosition(HumanBodyBones.Hips);
 
         // if (near) zero, bone doesnt exist
         if (bonePos.sqrMagnitude < 0.0001f)
@@ -290,7 +315,7 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
 
         if (_recalcSize)
         {
-            RecalculateBoneSize(playerBone, bonePos, bonePos, sizeRatio);
+            RecalculateBoneSize(playerBone, bonePos, bonePos, PlayerBone.SIZE_RATIO_HIP);
         }
         
         boneTransform.position = bonePos;
