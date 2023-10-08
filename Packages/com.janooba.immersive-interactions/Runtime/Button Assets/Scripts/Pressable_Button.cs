@@ -16,6 +16,7 @@ namespace JanoobaAssets.ImmersiveInteractions
     public class Pressable_Button : UdonSharpBehaviour
     {
         private const int SLEEP_FRAMES = 30;
+        private const float MAX_FRAME_DISTANCE = 0.01f;
 
         // Runtime
         [UdonSynced] public bool isLocked;
@@ -46,6 +47,9 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         [Min(0f), Tooltip("Cooldown for pressing so that it can't be spammed.")]
         public float cooldown = 0.1f;
+        
+        [Tooltip("Attempt to disallow presses from behind the button. In most cases this is not needed unless you really don't want people to be able to press the button from behind.")]
+        public bool limitBackpressing = false;
 
         // Fallback
         [Tooltip("Will be disabled and not checked against for VR users. Required for desktop users if the button colliders are children (compound collider)")]
@@ -425,7 +429,9 @@ namespace JanoobaAssets.ImmersiveInteractions
                     _touchingHand = touchingBone ? touchingBone.hand : VRC_Pickup.PickupHand.None;
 
                     // Push
-                    _currentDistance += _penetration / Mathf.Max(float.Epsilon, transform.parent.localScale.y);
+                    var movement = _penetration / Mathf.Max(float.Epsilon, transform.parent.localScale.y);
+                    if (limitBackpressing && movement > MAX_FRAME_DISTANCE) return; // Don't move too far in one frame
+                    _currentDistance += movement;
                     _currentDistance = Mathf.Min(_currentDistance, TrueButtonThickness);
 
                     UpdatePosition();
