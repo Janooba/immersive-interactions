@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.6-beta.3
+- Added "Limit Backpress" option to pressable buttons that can help stop buttons from being pushed from behind
+- Raised head bone position so that it's not sunk into the neck so much
+- Added box bones to hands without fingers
+- Fixed 2 joint finger bones not having their full length
+
 ## v0.2.6-beta.2
 - Added warning for null udon receivers with a button to clean up the nulls for you
 - Cleared up some tooltip language
