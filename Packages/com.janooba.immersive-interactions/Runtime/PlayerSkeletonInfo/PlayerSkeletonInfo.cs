@@ -83,7 +83,7 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
             bone_left_middleFinger = CreateBone(HumanBodyBones.LeftMiddleIntermediate, BoneType.Capsule);
             bone_left_thumb = CreateBone(HumanBodyBones.LeftThumbIntermediate, BoneType.Capsule);
         }
-        
+            
         bone_right_indexFinger = CreateBone(HumanBodyBones.RightIndexIntermediate, BoneType.Capsule);
         if (includeFullHands)
         {
@@ -93,7 +93,7 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
             bone_right_middleFinger = CreateBone(HumanBodyBones.RightMiddleIntermediate, BoneType.Capsule);
             bone_right_thumb = CreateBone(HumanBodyBones.RightThumbIntermediate, BoneType.Capsule);
         }
-        
+
         allBones = new PlayerBone[]
         {
             bone_left_indexFinger,
@@ -202,25 +202,25 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
         if (includeHips) UpdateHipPosition(bone_hip);
 
         // Left Hand
-        UpdateFingerPosition(bone_left_indexFinger, HumanBodyBones.LeftIndexProximal, HumanBodyBones.LeftIndexIntermediate, HumanBodyBones.LeftIndexDistal);
+        UpdateFingerPosition(bone_left_indexFinger, HumanBodyBones.LeftHand, HumanBodyBones.LeftIndexProximal, HumanBodyBones.LeftIndexIntermediate, HumanBodyBones.LeftIndexDistal);
         if (includeFullHands)
         {
-            UpdatePalmPosition(bone_right_hand, HumanBodyBones.RightHand, HumanBodyBones.RightLittleProximal, HumanBodyBones.RightRingProximal, HumanBodyBones.RightMiddleProximal, HumanBodyBones.RightIndexProximal, 1f);
-            UpdateFingerPosition(bone_left_littleFinger, HumanBodyBones.LeftLittleProximal, HumanBodyBones.LeftLittleIntermediate, HumanBodyBones.LeftLittleDistal);
-            UpdateFingerPosition(bone_left_ringFinger, HumanBodyBones.LeftRingProximal, HumanBodyBones.LeftRingIntermediate, HumanBodyBones.LeftRingDistal);
-            UpdateFingerPosition(bone_left_middleFinger, HumanBodyBones.LeftMiddleProximal, HumanBodyBones.LeftMiddleIntermediate, HumanBodyBones.LeftMiddleDistal);
-            UpdateFingerPosition(bone_left_thumb, HumanBodyBones.LeftThumbProximal, HumanBodyBones.LeftThumbIntermediate, HumanBodyBones.LeftThumbDistal);
+            UpdatePalmPosition(bone_left_hand, HumanBodyBones.LeftLowerArm, HumanBodyBones.LeftHand, HumanBodyBones.LeftLittleProximal, HumanBodyBones.LeftRingProximal, HumanBodyBones.LeftMiddleProximal, HumanBodyBones.LeftIndexProximal, 1f);
+            UpdateFingerPosition(bone_left_littleFinger, HumanBodyBones.LeftHand, HumanBodyBones.LeftLittleProximal, HumanBodyBones.LeftLittleIntermediate, HumanBodyBones.LeftLittleDistal);
+            UpdateFingerPosition(bone_left_ringFinger, HumanBodyBones.LeftHand, HumanBodyBones.LeftRingProximal, HumanBodyBones.LeftRingIntermediate, HumanBodyBones.LeftRingDistal);
+            UpdateFingerPosition(bone_left_middleFinger, HumanBodyBones.LeftHand, HumanBodyBones.LeftMiddleProximal, HumanBodyBones.LeftMiddleIntermediate, HumanBodyBones.LeftMiddleDistal);
+            UpdateFingerPosition(bone_left_thumb, HumanBodyBones.LeftHand, HumanBodyBones.LeftThumbProximal, HumanBodyBones.LeftThumbIntermediate, HumanBodyBones.LeftThumbDistal);
         }
-            
+
         // Right Hand
-        UpdateFingerPosition(bone_right_indexFinger, HumanBodyBones.RightIndexProximal, HumanBodyBones.RightIndexIntermediate, HumanBodyBones.RightIndexDistal);
+        UpdateFingerPosition(bone_right_indexFinger, HumanBodyBones.RightHand, HumanBodyBones.RightIndexProximal, HumanBodyBones.RightIndexIntermediate, HumanBodyBones.RightIndexDistal);
         if (includeFullHands)
         {
-            UpdatePalmPosition(bone_left_hand, HumanBodyBones.LeftHand, HumanBodyBones.LeftLittleProximal, HumanBodyBones.LeftRingProximal, HumanBodyBones.LeftMiddleProximal, HumanBodyBones.LeftIndexProximal, 1f);
-            UpdateFingerPosition(bone_right_littleFinger, HumanBodyBones.RightLittleProximal, HumanBodyBones.RightLittleIntermediate, HumanBodyBones.RightLittleDistal);
-            UpdateFingerPosition(bone_right_ringFinger, HumanBodyBones.RightRingProximal, HumanBodyBones.RightRingIntermediate, HumanBodyBones.RightRingDistal);
-            UpdateFingerPosition(bone_right_middleFinger, HumanBodyBones.RightMiddleProximal, HumanBodyBones.RightMiddleIntermediate, HumanBodyBones.RightMiddleDistal);
-            UpdateFingerPosition(bone_right_thumb, HumanBodyBones.RightThumbProximal, HumanBodyBones.RightThumbIntermediate, HumanBodyBones.RightThumbDistal);
+            UpdatePalmPosition(bone_right_hand, HumanBodyBones.RightLowerArm, HumanBodyBones.RightHand, HumanBodyBones.RightLittleProximal, HumanBodyBones.RightRingProximal, HumanBodyBones.RightMiddleProximal, HumanBodyBones.RightIndexProximal, 1f);
+            UpdateFingerPosition(bone_right_littleFinger, HumanBodyBones.RightHand, HumanBodyBones.RightLittleProximal, HumanBodyBones.RightLittleIntermediate, HumanBodyBones.RightLittleDistal);
+            UpdateFingerPosition(bone_right_ringFinger, HumanBodyBones.RightHand, HumanBodyBones.RightRingProximal, HumanBodyBones.RightRingIntermediate, HumanBodyBones.RightRingDistal);
+            UpdateFingerPosition(bone_right_middleFinger, HumanBodyBones.RightHand, HumanBodyBones.RightMiddleProximal, HumanBodyBones.RightMiddleIntermediate, HumanBodyBones.RightMiddleDistal);
+            UpdateFingerPosition(bone_right_thumb, HumanBodyBones.RightHand, HumanBodyBones.RightThumbProximal, HumanBodyBones.RightThumbIntermediate, HumanBodyBones.RightThumbDistal);
         }
 
         // Feet
@@ -322,7 +322,7 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
         SetValid(boneTransform, true);
     }
 
-    private void UpdatePalmPosition(PlayerBone playerBone, HumanBodyBones handBone, HumanBodyBones littleFingerBone, HumanBodyBones ringFingerBone, HumanBodyBones middleFingerBone, HumanBodyBones indexFingerBone, float sizeRatio)
+    private void UpdatePalmPosition(PlayerBone playerBone, HumanBodyBones forearmBone, HumanBodyBones handBone, HumanBodyBones littleFingerBone, HumanBodyBones ringFingerBone, HumanBodyBones middleFingerBone, HumanBodyBones indexFingerBone, float sizeRatio)
     {
         var boneTransform = playerBone.transform;
         var handBonePos = Networking.LocalPlayer.GetBonePosition(handBone);
@@ -336,17 +336,7 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
         bool middleFingerExists = middleFingerBonePos != Vector3.zero;
         bool indexFingerExists = indexFingerBonePos != Vector3.zero;
 
-        // if no fingers exist, palm isnt valid
-        if (!littleFingerExists &&
-            !ringFingerExists && 
-            !middleFingerExists &&
-            !indexFingerExists)
-        {
-            SetValid(boneTransform, false);
-            return;
-        }
-        
-        var outerMostFingerPos = Vector3.zero;
+        var outerMostFingerPos = handBonePos;
         if (littleFingerExists)
             outerMostFingerPos = littleFingerBonePos;
         else if (ringFingerExists)
@@ -356,7 +346,7 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
         else if (indexFingerExists)
             outerMostFingerPos = indexFingerBonePos;
         
-        var innerMostFingerPos = Vector3.zero;
+        var innerMostFingerPos = handBonePos;
         if (indexFingerExists)
             innerMostFingerPos = indexFingerBonePos;
         else if (middleFingerExists)
@@ -366,21 +356,45 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
         else if (littleFingerExists)
             innerMostFingerPos = littleFingerBonePos;
 
-        var fingerBonePos = Vector3.Lerp(
-            outerMostFingerPos, 
-            innerMostFingerPos,
-            0.5f);
-
-        if (_recalcSize)
+        // if no fingers exist, palm isnt valid
+        if (!littleFingerExists &&
+            !ringFingerExists && 
+            !middleFingerExists &&
+            !indexFingerExists)
         {
-            RecalculateBoneSize(playerBone, handBonePos, fingerBonePos, sizeRatio, Vector3.Distance(outerMostFingerPos, innerMostFingerPos));
-        }
+            // SetValid(boneTransform, false);
+            // return;
+            
+            var forearmBonePos = Networking.LocalPlayer.GetBonePosition(forearmBone);
+            var forearmToHand = handBonePos - forearmBonePos;
+            var fingerBonePos = handBonePos + forearmToHand.normalized * forearmToHand.magnitude * 0.25f;
+
+            if (_recalcSize)
+            {
+                RecalculateBoneSize(playerBone, handBonePos, fingerBonePos, sizeRatio, forearmToHand.magnitude * 0.25f);
+            }
         
-        boneTransform.SetPositionAndRotation(handBonePos, Quaternion.LookRotation(fingerBonePos - handBonePos, Vector3.Cross(fingerBonePos - handBonePos, fingerBonePos - indexFingerBonePos)));
-        SetValid(boneTransform, true);
+            boneTransform.SetPositionAndRotation(handBonePos, Quaternion.LookRotation(fingerBonePos - handBonePos, Vector3.Cross(forearmBonePos - handBonePos, forearmBonePos - indexFingerBonePos)));
+            SetValid(boneTransform, true);
+        }
+        else
+        {
+            var fingerBonePos = Vector3.Lerp(
+                outerMostFingerPos, 
+                innerMostFingerPos,
+                0.5f);
+
+            if (_recalcSize)
+            {
+                RecalculateBoneSize(playerBone, handBonePos, fingerBonePos, sizeRatio, Vector3.Distance(outerMostFingerPos, innerMostFingerPos));
+            }
+        
+            boneTransform.SetPositionAndRotation(handBonePos, Quaternion.LookRotation(fingerBonePos - handBonePos, Vector3.Cross(fingerBonePos - handBonePos, fingerBonePos - indexFingerBonePos)));
+            SetValid(boneTransform, true);   
+        }
     }
     
-    private void UpdateFingerPosition(PlayerBone playerBone, HumanBodyBones proximal, HumanBodyBones intermediate, HumanBodyBones distal)
+    private void UpdateFingerPosition(PlayerBone playerBone, HumanBodyBones hand, HumanBodyBones proximal, HumanBodyBones intermediate, HumanBodyBones distal)
     {
         var boneTransform = playerBone.transform;
         
@@ -394,13 +408,18 @@ public class PlayerSkeletonInfo : UdonSharpBehaviour
         
         if (distalPos.sqrMagnitude < 0.0001f) // No distal bone, use intermediate
         {
-            startPos = proximalPos;
-            endPos = intermediatePos;
-            
-            var dist = Vector3.Distance(startPos, endPos);
-            playerBone.transform.SetPositionAndRotation(startPos, dist > 0 ? Quaternion.LookRotation(endPos - startPos) : Quaternion.identity);
+            // startPos = proximalPos;
+            // endPos = intermediatePos;
+            //
+            // var dist = Vector3.Distance(startPos, endPos);
+            // playerBone.transform.SetPositionAndRotation(startPos, dist > 0 ? Quaternion.LookRotation(endPos - startPos) : Quaternion.identity);
+
+            distalPos = intermediatePos;
+            intermediatePos = proximalPos;
+            proximalPos = Networking.LocalPlayer.GetBonePosition(hand);
         }
-        else
+        
+        //else
         {
             startPos = intermediatePos;
             endPos = distalPos;
