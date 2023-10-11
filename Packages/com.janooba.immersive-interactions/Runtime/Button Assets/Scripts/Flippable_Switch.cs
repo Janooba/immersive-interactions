@@ -798,6 +798,11 @@ namespace JanoobaAssets.ImmersiveInteractions
             else // Collider doesn't exist
                 return;
         }
+        
+        private void ClearColliders()
+        {
+            _collectedColliders = new Collider[MAX_TOUCHES];
+        }
 
         #endregion
 
@@ -889,6 +894,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         
         public void Wake()
         {
+            ClearColliders();
             _framesIdle = 0;
             _sleeping = false;
         }

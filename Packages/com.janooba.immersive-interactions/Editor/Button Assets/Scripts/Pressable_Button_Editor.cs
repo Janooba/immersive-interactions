@@ -383,6 +383,8 @@ namespace JanoobaAssets.ImmersiveInteractions
             text += $"Is Toggled: {button.IsToggled}\n";
             text += $"Progress: {button.CurrentUnitProgress}\n";
             text += $"Sleeping: {button.IsSleeping}\n";
+            text += $"Idle Colliders Exist: {button.IdleCollidersExist()}\n";
+            text += $"Has Reset Since Enabled: {button.HasResetSinceEnabled}\n";
             EditorGUILayout.HelpBox(text, MessageType.None);
             
             if (EditorGUI.EndChangeCheck())

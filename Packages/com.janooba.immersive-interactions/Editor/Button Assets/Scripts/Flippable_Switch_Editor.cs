@@ -374,6 +374,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             text += $"Is Toggled: {flippableSwitch.IsToggled}\n";
             text += $"Progress: {flippableSwitch.CurrentUnitProgress}\n";
             text += $"Sleeping: {flippableSwitch.IsSleeping}\n";
+            text += $"Idle Colliders Exist: {flippableSwitch.IdleCollidersExist()}";
             EditorGUILayout.HelpBox(text, MessageType.None);
             
             if (EditorGUI.EndChangeCheck())

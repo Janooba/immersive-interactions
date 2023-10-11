@@ -165,6 +165,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             get => _currentUnitProgress;
             private set => _currentUnitProgress = value;
         }
+        public bool HasResetSinceEnabled => _hasResetSinceEnabled;
 
         public bool IsSleeping
         {
@@ -202,6 +203,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private bool _initialized = false;
         private bool _fallbackPress = false;
+        private bool _hasResetSinceEnabled = false;
 
 #if !COMPILER_UDONSHARP
         private void OnValidate()
@@ -272,6 +274,17 @@ namespace JanoobaAssets.ImmersiveInteractions
             cached_top = transform.localPosition;
             cached_bottom = transform.localPosition - buttonAxis.normalized * TrueButtonThickness;
             cached_toggleTop = Vector3.Lerp(cached_top, cached_bottom, toggleInPosition);
+        }
+
+        private void OnEnable()
+        {
+            Wake();
+            _hasResetSinceEnabled = false;
+        }
+
+        private void OnDisable()
+        {
+            Sleep();
         }
 
         #endregion
@@ -575,6 +588,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void UpdatePosition()
         {
             CurrentUnitProgress = Mathf.Clamp01(_currentDistance / TrueButtonThickness);
+            if (!_hasResetSinceEnabled && CurrentUnitProgress == 0f) _hasResetSinceEnabled = true;
 
             var newPosition = Vector3.Lerp(TopPosition, BotPosition, CurrentUnitProgress);
 
@@ -678,6 +692,8 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void TriggerPress()
         {
+            if (!_hasResetSinceEnabled) return;
+            
             if (isToggleButton)
             {
                 if (IsToggled)
@@ -789,6 +805,11 @@ namespace JanoobaAssets.ImmersiveInteractions
                 return;
         }
 
+        private void ClearColliders()
+        {
+            _collectedColliders = new Collider[MAX_TOUCHES];
+        }
+
         #endregion
 
         #region Feedback Modules
@@ -881,6 +902,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         
         public void Wake()
         {
+            ClearColliders();
             _framesIdle = 0;
             _sleeping = false;
         }

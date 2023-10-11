@@ -1,7 +1,7 @@
 {
   "name": "com.janooba.immersive-interactions",
   "displayName": "Immersive Interactions",
-  "version": "0.2.6-beta.3",
+  "version": "0.2.6-beta.4",
   "description": "This project aims to provide the most comprehensive and physically accurate buttons and switches on the VRChat market.",
   "gitDependencies": {},
   "vpmDependencies": {
