@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.6-beta.4
+- Just-enabled buttons will not trigger immediately if they were left pressed when disabled
+- Enabled buttons will not get stuck if disabled while pressed
+
 ## v0.2.6-beta.3
 - Added "Limit Backpress" option to pressable buttons that can help stop buttons from being pushed from behind
 - Raised head bone position so that it's not sunk into the neck so much
