@@ -278,6 +278,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void OnEnable()
         {
+            ClearColliders();
             Wake();
             _hasResetSinceEnabled = false;
         }
@@ -443,7 +444,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
                     // Push
                     var movement = _penetration / Mathf.Max(float.Epsilon, transform.parent.localScale.y);
-                    if (limitBackpressing && movement > MAX_FRAME_DISTANCE) return; // Don't move too far in one frame
+                    //if (limitBackpressing && movement > MAX_FRAME_DISTANCE) return; // Don't move too far in one frame
                     _currentDistance += movement;
                     _currentDistance = Mathf.Min(_currentDistance, TrueButtonThickness);
 
@@ -902,7 +903,6 @@ namespace JanoobaAssets.ImmersiveInteractions
         
         public void Wake()
         {
-            ClearColliders();
             _framesIdle = 0;
             _sleeping = false;
         }

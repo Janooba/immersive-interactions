@@ -190,6 +190,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private bool _initialized = false;
         private bool _fallbackPress = false;
+        private bool _hasResetSinceEnabled = false;
 
 #if !COMPILER_UDONSHARP
         private void OnValidate()
@@ -251,6 +252,18 @@ namespace JanoobaAssets.ImmersiveInteractions
         {
             cached_top = transform.localRotation;
             cached_bottom = transform.localRotation * Quaternion.Euler(-maxRotation, 0, 0);
+        }
+        
+        private void OnEnable()
+        {
+            ClearColliders();
+            Wake();
+            _hasResetSinceEnabled = false;
+        }
+
+        private void OnDisable()
+        {
+            Sleep();
         }
 
         #endregion
@@ -562,6 +575,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void UpdateRotation()
         {
             CurrentUnitProgress = Mathf.Clamp01(_currentRotation / maxRotation);
+            if (!_hasResetSinceEnabled && CurrentUnitProgress == 0f) _hasResetSinceEnabled = true;
             transform.rotation = Quaternion.Slerp(TopRotation, BotRotation, CurrentUnitProgress);
 
             ApplyAnimation();
@@ -675,6 +689,8 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void TriggerPress()
         {
+            if (!_hasResetSinceEnabled) return;
+            
             if (isToggleSwitch)
             {
                 if (IsToggled)
@@ -894,7 +910,6 @@ namespace JanoobaAssets.ImmersiveInteractions
         
         public void Wake()
         {
-            ClearColliders();
             _framesIdle = 0;
             _sleeping = false;
         }
