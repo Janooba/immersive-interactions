@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.3.0
+- Unity 2022.3 upgrade
+
+## v0.2.6
+- Release
+
 ## v0.2.6-beta.4
 - Just-enabled buttons will not trigger immediately if they were left pressed when disabled
 - Enabled buttons will not get stuck if disabled while pressed
