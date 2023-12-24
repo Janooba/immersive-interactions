@@ -4,10 +4,7 @@
   "version": "0.3.0",
   "description": "This project aims to provide the most comprehensive and physically accurate buttons and switches on the VRChat market.",
   "gitDependencies": {},
-  "vpmDependencies": {
-    "com.vrchat.udonsharp": "^1.1.9",
-    "com.vrchat.worlds": "<=3.3.0"
-  },
+  "vpmDependencies": {},
   "author": {
     "name": "Janooba",
     "email": "me@Janooba.com"
