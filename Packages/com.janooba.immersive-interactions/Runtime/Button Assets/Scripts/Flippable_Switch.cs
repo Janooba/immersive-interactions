@@ -575,7 +575,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void UpdateRotation()
         {
             CurrentUnitProgress = Mathf.Clamp01(_currentRotation / maxRotation);
-            if (!_hasResetSinceEnabled && CurrentUnitProgress == 0f) _hasResetSinceEnabled = true;
+            if (!_hasResetSinceEnabled && CurrentUnitProgress == (isToggleSwitch && startToggledOn ? 1f : 0f) ) _hasResetSinceEnabled = true;
             transform.rotation = Quaternion.Slerp(TopRotation, BotRotation, CurrentUnitProgress);
 
             ApplyAnimation();
