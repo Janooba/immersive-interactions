@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.x
+- Everything from 0.2.x-betas
+- Fix bug with buttons that are set to start toggle on
+- Fix inconsistent push registry
+
 ## v0.2.6-beta.4
 - Just-enabled buttons will not trigger immediately if they were left pressed when disabled
 - Enabled buttons will not get stuck if disabled while pressed
