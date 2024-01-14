@@ -203,6 +203,9 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private bool _initialized = false;
         private bool _fallbackPress = false;
+        
+        // If a user makes this button toggle its own active state, it will be stuck on when re-activated
+        // This is used to prevent buttons from being pressed right when they are activated in that case
         private bool _hasResetSinceEnabled = false;
 
 #if !COMPILER_UDONSHARP
@@ -589,7 +592,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void UpdatePosition()
         {
             CurrentUnitProgress = Mathf.Clamp01(_currentDistance / TrueButtonThickness);
-            if (!_hasResetSinceEnabled && CurrentUnitProgress == 0f) _hasResetSinceEnabled = true;
+            if (!_hasResetSinceEnabled && CurrentUnitProgress == (isToggleButton && startToggledOn ? 1f : 0f) ) _hasResetSinceEnabled = true;
 
             var newPosition = Vector3.Lerp(TopPosition, BotPosition, CurrentUnitProgress);
 
@@ -693,7 +696,11 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void TriggerPress()
         {
-            if (!_hasResetSinceEnabled) return;
+            if (!_hasResetSinceEnabled)
+            {
+                Debug.Log("Waiting for button to reset before triggering.");
+                return;
+            }
             
             if (isToggleButton)
             {

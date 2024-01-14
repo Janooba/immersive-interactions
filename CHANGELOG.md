@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.2
+- Everything from 0.2.x-betas
+- Fix bug with buttons that are set to start toggle on
+- Fix inconsistent push registry
+
 ## v0.3.0
 - Unity 2022.3 upgrade
 
