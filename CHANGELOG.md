@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.3.3
+- Fixed edge case where disabling a button in certain states would freeze it when re-enabled
+
 ## v0.3.2
 - Everything from 0.2.x-betas
 - Fix bug with buttons that are set to start toggle on

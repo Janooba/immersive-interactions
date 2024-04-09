@@ -575,7 +575,17 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void UpdateRotation()
         {
             CurrentUnitProgress = Mathf.Clamp01(_currentRotation / maxRotation);
-            if (!_hasResetSinceEnabled && CurrentUnitProgress == (isToggleSwitch && startToggledOn ? 1f : 0f) ) _hasResetSinceEnabled = true;
+            
+            // If this button has just enabled and hasn't reset yet
+            // We need to wait for it to reset before we can trigger it
+            if (!_hasResetSinceEnabled)
+            {
+                float resetPosition = isToggleSwitch && IsToggled ? 1f : 0f;
+                
+                if (CurrentUnitProgress == resetPosition)
+                    _hasResetSinceEnabled = true;
+            }
+            
             transform.rotation = Quaternion.Slerp(TopRotation, BotRotation, CurrentUnitProgress);
 
             ApplyAnimation();
