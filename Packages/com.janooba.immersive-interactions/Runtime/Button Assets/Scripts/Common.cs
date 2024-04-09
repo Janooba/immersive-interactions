@@ -94,6 +94,11 @@ namespace JanoobaAssets.ImmersiveInteractions
             rawDistance *= Mathf.Sign(Vector3.Dot(-axis.normalized, toIncoming.normalized));
             return rawDistance;
         }
+        
+        public static float EstimatePenetration(Transform transform, Collider incomingCollider)
+        {
+            return (incomingCollider.transform.position - transform.position).magnitude;
+        }
     }
    
 }
