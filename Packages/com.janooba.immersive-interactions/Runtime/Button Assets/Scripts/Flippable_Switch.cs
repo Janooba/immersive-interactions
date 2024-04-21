@@ -32,6 +32,8 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         [Tooltip("How far to rotate the switch in world units."), Min(0.00001f)]
         public float maxRotation = 20f;
+        [Tooltip("Flip the direction the switch rotates to turn \"on\".")]
+        public bool flipDirection = false;
 
         public float returnRate = 2f;
 
@@ -251,7 +253,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void CacheRotations()
         {
             cached_top = transform.localRotation;
-            cached_bottom = transform.localRotation * Quaternion.Euler(-maxRotation, 0, 0);
+            cached_bottom = transform.localRotation * Quaternion.Euler(flipDirection ? maxRotation : -maxRotation, 0, 0);
         }
         
         private void OnEnable()
@@ -435,6 +437,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
                     //Clamp
                     _currentRotation = Mathf.Clamp(_currentRotation, 0, maxRotation);
+                    
                     UpdateRotation();
 
                     if (_sleeping)

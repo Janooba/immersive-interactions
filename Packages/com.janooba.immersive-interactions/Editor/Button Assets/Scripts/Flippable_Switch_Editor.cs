@@ -22,6 +22,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private SerializedProperty ignoredColliders;
         
         private SerializedProperty maxRotation;
+        private SerializedProperty flipDirection;
         private SerializedProperty triggerZone;
 
         private SerializedProperty returnRate;
@@ -84,6 +85,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             ignoredColliders = serializedObject.FindProperty(nameof(Flippable_Switch.ignoredColliders));
             
             maxRotation = serializedObject.FindProperty(nameof(Flippable_Switch.maxRotation));
+            flipDirection = serializedObject.FindProperty(nameof(Flippable_Switch.flipDirection));
             triggerZone = serializedObject.FindProperty(nameof(Flippable_Switch.triggerZone));
 
             returnRate = serializedObject.FindProperty(nameof(Flippable_Switch.returnRate));
@@ -185,6 +187,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             GUILayout.Label("// GENERAL SETTINGS", Shared_EditorUtility.BoldHeader);
             
             EditorGUILayout.PropertyField(maxRotation);
+            EditorGUILayout.PropertyField(flipDirection);
             EditorGUILayout.PropertyField(triggerZone);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(cooldown);
