@@ -6,6 +6,13 @@ using VRC.Udon;
 
 namespace JanoobaAssets.ImmersiveInteractions
 {
+    public enum Axis
+    {
+        X,
+        Y,
+        Z
+    }
+    
     public static class Common
     {
         public static bool IsGameObjectLayerInBlacklist(GameObject go)

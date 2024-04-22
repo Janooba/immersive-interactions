@@ -22,6 +22,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         private SerializedProperty ignoredColliders;
         
         private SerializedProperty minMaxRotation;
+        private SerializedProperty rotationAxis;
+        private SerializedProperty outerAxis;
         private SerializedProperty triggerZone;
 
         private SerializedProperty returnRate;
@@ -84,6 +86,8 @@ namespace JanoobaAssets.ImmersiveInteractions
             ignoredColliders = serializedObject.FindProperty(nameof(Flippable_Switch.ignoredColliders));
             
             minMaxRotation = serializedObject.FindProperty(nameof(Flippable_Switch.minMaxRotation));
+            rotationAxis = serializedObject.FindProperty(nameof(Flippable_Switch.rotationAxis));
+            outerAxis = serializedObject.FindProperty(nameof(Flippable_Switch.outerAxis));
             triggerZone = serializedObject.FindProperty(nameof(Flippable_Switch.triggerZone));
 
             returnRate = serializedObject.FindProperty(nameof(Flippable_Switch.returnRate));
@@ -134,6 +138,17 @@ namespace JanoobaAssets.ImmersiveInteractions
             #endregion
         }
         
+        public void OnSceneGUI()
+        {
+            var switchh = target as Flippable_Switch;
+            var switchTransform = switchh.transform;
+            var switchParent = switchTransform.parent;
+            
+            Handles.color = new Color(1, 0, 0, 0.2f);
+            Handles.matrix = switchParent.localToWorldMatrix;
+            Handles.DrawSolidArc(switchTransform.localPosition, Vector3.right, switchh.MinRotationVector, switchh.minMaxRotation.y - switchh.minMaxRotation.x, 0.02f);
+        }
+
         public override void OnInspectorGUI()
         {
             Flippable_Switch flippableSwitch = (Flippable_Switch)target;
@@ -185,6 +200,10 @@ namespace JanoobaAssets.ImmersiveInteractions
             GUILayout.Label("// GENERAL SETTINGS", Shared_EditorUtility.BoldHeader);
             
             EditorGUILayout.PropertyField(minMaxRotation);
+            
+            EditorGUILayout.PropertyField(rotationAxis);
+            EditorGUILayout.PropertyField(outerAxis);
+            
             EditorGUILayout.PropertyField(triggerZone);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(cooldown);

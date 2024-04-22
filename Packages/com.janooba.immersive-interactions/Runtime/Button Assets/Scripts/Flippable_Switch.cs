@@ -33,14 +33,16 @@ namespace JanoobaAssets.ImmersiveInteractions
         [Tooltip("How far to rotate the switch in world units.")]
         public Vector2 minMaxRotation = new Vector2(-20f, 20f);
 
-        public float returnRate = 2f;
-
+        public Axis rotationAxis = Axis.X;
+        public Axis outerAxis = Axis.Y;
+        
         [Range(0f, 1f), Tooltip("If depressed further than this button, it is considered pushed. Between 0 and 1, where 1 is fully depressed.")]
         public float triggerZone = 0.5f;
 
         [Min(0f), Tooltip("Cooldown for pressing so that it can't be spammed.")]
         public float cooldown = 0.1f;
-
+        public float returnRate = 2f;
+        
         // Fallback
         [Tooltip("Will be disabled and not checked against for VR users. Required for desktop users if the button colliders are children (compound collider)")]
         public Collider fallbackCollider;
@@ -169,9 +171,11 @@ namespace JanoobaAssets.ImmersiveInteractions
         
         public bool UseFallback => (Networking.LocalPlayer != null && !Networking.LocalPlayer.IsUserInVR()) || !_skeleton.HasHands || _skeleton.forceFallback;
 
-        private Vector3 upAxis => transform.parent.forward;
-        private Vector3 crossAxis => transform.parent.right;
-        private Vector3 outAxis => transform.parent.up;
+        public Vector3 CrossAxis => ConvertAxisToVector(rotationAxis);
+        public Vector3 OutAxis => ConvertAxisToVector(outerAxis);
+
+        public Vector3 MinRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * Vector3.forward;
+        public Vector3 MaxRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * Vector3.forward;
 
         // Sleeping
         private bool _sleeping = false;
@@ -250,8 +254,8 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void CacheRotations()
         {
-            cached_top = transform.localRotation * Quaternion.Euler(minMaxRotation.x, 0, 0);
-            cached_bottom = transform.localRotation * Quaternion.Euler(minMaxRotation.y, 0, 0);
+            cached_top = Quaternion.Euler(CrossAxis * minMaxRotation.x);
+            cached_bottom = Quaternion.Euler(CrossAxis * minMaxRotation.y);
         }
         
         private void OnEnable()
@@ -389,6 +393,9 @@ namespace JanoobaAssets.ImmersiveInteractions
                 var bone = _collectedBones[c];
              
                 if (otherCol == null)
+                    continue;
+
+                if (ColliderIdle(otherCol))
                     continue;
                 
                 for (int t = 0; t < _triggers.Length; t++)
@@ -549,7 +556,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void UpdateRotation()
         {
-            CurrentUnitProgress = Mathf.Clamp01(_currentRotation / (minMaxRotation.y - minMaxRotation.x));
+            CurrentUnitProgress = Mathf.InverseLerp(minMaxRotation.x, minMaxRotation.y, _currentRotation);
             
             // If this button has just enabled and hasn't reset yet
             // We need to wait for it to reset before we can trigger it
@@ -561,8 +568,7 @@ namespace JanoobaAssets.ImmersiveInteractions
                     _hasResetSinceEnabled = true;
             }
             
-            transform.rotation = Quaternion.Slerp(TopRotation, BotRotation, CurrentUnitProgress);
-
+            transform.rotation = Quaternion.Lerp(TopRotation, BotRotation, CurrentUnitProgress);
             ApplyAnimation();
         }
 
@@ -585,6 +591,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             if (!isToggleSwitch)
             {
                 _fallbackPress = true;
+                _currentRotation = IsToggled ? minMaxRotation.x : minMaxRotation.y;
                 SendCustomEventDelayedSeconds(nameof(NonVR_Release), fallbackPressTime);
             }
         }
@@ -592,6 +599,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         public void NonVR_Release()
         {
             _fallbackPress = false;
+            _currentRotation = IsToggled ? minMaxRotation.y : minMaxRotation.x;
         }
 
         public void Pressed(bool isToggledOn)
@@ -622,11 +630,7 @@ namespace JanoobaAssets.ImmersiveInteractions
                 Common.SendEvents(transform, IsToggled, pressedEventName, isToggleSwitch, forceSendStateless, udonReceivers);
             }
 
-            if (UseFallback)
-            {
-                _currentRotation = minMaxRotation.y;
-            }
-            else
+            if (!UseFallback)
             {
                 PlayHaptics();
             }
@@ -658,11 +662,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             ApplyTint();
             ApplyTexture();
 
-            if (UseFallback)
-            {
-                _currentRotation = IsToggled ? minMaxRotation.y : minMaxRotation.x;
-            }
-            else
+            if (!UseFallback)
             {
                 PlayHaptics();
             }
@@ -672,6 +672,21 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         #region Utilities
 
+        private Vector3 ConvertAxisToVector(Axis axis)
+        {
+            switch (axis)
+            {
+                case Axis.X:
+                    return transform.right;
+                case Axis.Y:
+                    return transform.up;
+                case Axis.Z:
+                    return transform.forward;
+            }
+
+            return transform.forward;
+        }
+        
         private float ClampRotation(float rotation)
         {
             if (minMaxRotation.x < minMaxRotation.y)
@@ -927,10 +942,11 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.white;
-            Gizmos.DrawLine(transform.position, transform.position + upAxis * 0.1f);
-            Gizmos.DrawLine(transform.position, transform.position + outAxis * 0.1f);
-            Gizmos.DrawLine(transform.position, transform.position + crossAxis * 0.1f);
+            var transparency = new Color(1f, 1f, 1f, 0.5f);
+            Gizmos.color = Color.blue * transparency;
+            Gizmos.DrawLine(transform.position, transform.position + OutAxis * 0.1f);
+            Gizmos.color = Color.red * transparency;
+            Gizmos.DrawLine(transform.position, transform.position + CrossAxis * 0.1f);
         }
     }
 }
