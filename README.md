@@ -33,6 +33,9 @@ https://github.com/Janooba/immersive-interactions/assets/17034238/2b94e1f5-01ff-
 ## Pushable buttons!
 https://github.com/Janooba/immersive-interactions/assets/17034238/40ce9fa2-2134-44a7-9257-7540197a9bc1
 
+## Levers you can grab and pull!
+https://github.com/user-attachments/assets/8d43b0d1-c27c-4870-9686-db7a292227ad
+
 ## Buttons on physics objects!?
 https://github.com/Janooba/immersive-interactions/assets/17034238/bf1fea51-ae7a-4470-8f29-b3bc9d6ec2ec
 
@@ -49,3 +52,8 @@ https://github.com/Janooba/immersive-interactions/assets/17034238/1714cb18-a66b-
 1. Scroll to the **// EVENTS** section and add something to the list of receivers.
 1. Toggle on one of the Send toggles and note the events that will be sent below.
 1. Change the event name to match your own script’s Events, or add a public event to your own Udon Behaviour that matches one of the events sent.
+
+# Support
+
+Did you make something cool with this package? I'd love to see it!
+Need help with something? Feel free to contact me on discord as @Janooba or email me at support@janooba.com for support.
