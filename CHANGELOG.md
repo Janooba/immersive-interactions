@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.4.0-beta.2
+- Fix for switch rotations being world space under certain circumstances.
+- Updated example scene
+
 ## v0.4.0-beta.1
 - Completely rewrites flippable switch collision detection and resolving. Now reacts more accurately
 - Adds Handle module to flippable switches

@@ -143,8 +143,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         private double _timePressed = 0;
         private double TimeSincePressed => Networking.GetServerTimeInSeconds() - _timePressed;
 
-        private Quaternion TopRotation => transform.parent.rotation * cached_top;
-        private Quaternion BotRotation => transform.parent.rotation * cached_bottom;
+        private Quaternion TopRotation => cached_top * transform.parent.rotation;
+        private Quaternion BotRotation => cached_bottom * transform.parent.rotation;
 
         [HideInInspector, SerializeField] private Quaternion cached_top;
         [HideInInspector, SerializeField] private Quaternion cached_bottom;

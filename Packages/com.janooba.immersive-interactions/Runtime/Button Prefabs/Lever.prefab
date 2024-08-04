@@ -167,7 +167,7 @@ MonoBehaviour:
   ThrowVelocityBoostScale: 1
   currentlyHeldBy: {fileID: 0}
   pickupable: 1
-  proximity: 2
+  proximity: 0.5
 --- !u!114 &1433367300127722116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,7 +248,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6913771702325382163}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.9730423, y: -0, z: -0, w: 0.23062672}
+  m_LocalRotation: {x: -0.9730422, y: 0, z: 0, w: 0.2306273}
   m_LocalPosition: {x: -2.748, y: 1.249, z: 3.125}
   m_LocalScale: {x: 3.0241, y: 3.0241, z: 3.0241}
   m_ConstrainProportionsScale: 0
@@ -692,12 +692,12 @@ MonoBehaviour:
   minMaxRotation: {x: 85, y: -85}
   rotationAxis: 0
   outerAxis: 2
-  triggerZone: 0.5
+  triggerZone: 0.95
   cooldown: 0.1
   returnRate: 2
   fallbackCollider: {fileID: 0}
   fallbackPressTime: 0.2
-  networkSync: 0
+  networkSync: 1
   masterOnly: 0
   transferReceiverOwnership: 1
   disableWhenNetworkClogged: 1
