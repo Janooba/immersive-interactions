@@ -30,17 +30,19 @@ namespace JanoobaAssets.ImmersiveInteractions
         public bool isToggleSwitch = false;
         public bool startToggledOn = false;
 
-        [Tooltip("How far to rotate the switch in world units."), Min(0.00001f)]
-        public float maxRotation = 20f;
+        [Tooltip("How far to rotate the switch in world units.")]
+        public Vector2 minMaxRotation = new Vector2(-20f, 20f);
 
-        public float returnRate = 2f;
-
+        public Axis rotationAxis = Axis.X;
+        public Axis outerAxis = Axis.Y;
+        
         [Range(0f, 1f), Tooltip("If depressed further than this button, it is considered pushed. Between 0 and 1, where 1 is fully depressed.")]
         public float triggerZone = 0.5f;
 
         [Min(0f), Tooltip("Cooldown for pressing so that it can't be spammed.")]
         public float cooldown = 0.1f;
-
+        public float returnRate = 2f;
+        
         // Fallback
         [Tooltip("Will be disabled and not checked against for VR users. Required for desktop users if the button colliders are children (compound collider)")]
         public Collider fallbackCollider;
@@ -94,6 +96,14 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         public Texture2D lockedTexture;
 
+        // Handle
+        public bool useHandle;
+        public Lever_Handle handle;
+        [Tooltip("If true, Non VR players will not be able to click this switch and must use the handle.")]
+        public bool forceUseHandleForNonVR;
+        
+        private bool IsHandleEnabledAndGrabbed => useHandle && handle && handle.IsGrabbed;
+        
         // Haptics
         public bool enableHaptics = true;
         public float hapticsDuration = 0.05f;
@@ -133,8 +143,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         private double _timePressed = 0;
         private double TimeSincePressed => Networking.GetServerTimeInSeconds() - _timePressed;
 
-        private Quaternion TopRotation => transform.parent.rotation * cached_top;
-        private Quaternion BotRotation => transform.parent.rotation * cached_bottom;
+        private Quaternion TopRotation => cached_top * transform.parent.rotation;
+        private Quaternion BotRotation => cached_bottom * transform.parent.rotation;
 
         [HideInInspector, SerializeField] private Quaternion cached_top;
         [HideInInspector, SerializeField] private Quaternion cached_bottom;
@@ -169,10 +179,15 @@ namespace JanoobaAssets.ImmersiveInteractions
         
         public bool UseFallback => (Networking.LocalPlayer != null && !Networking.LocalPlayer.IsUserInVR()) || !_skeleton.HasHands || _skeleton.forceFallback;
 
-        private Vector3 upAxis => transform.parent.forward;
-        private Vector3 crossAxis => transform.parent.right;
-        private Vector3 outAxis => transform.parent.up;
+        public Vector3 CrossAxis => ConvertAxisToVector(rotationAxis);
+        public Vector3 OutAxis => ConvertAxisToVector(outerAxis);
 
+        public Vector3 MinRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * Vector3.forward;
+        public Vector3 MaxRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * Vector3.forward;
+
+        // Handle
+        private Vector3 handleTargetPoint;
+        
         // Sleeping
         private bool _sleeping = false;
         private int _framesIdle = 0;
@@ -235,9 +250,18 @@ namespace JanoobaAssets.ImmersiveInteractions
                 Common.IgnoreCollider(transform, _triggers, ignoredColliders[i]);
             }
 
+            if (useHandle && handle)
+            {
+                foreach (var handleCol in handle.GetComponentsInChildren<Collider>())
+                {
+                    Debug.Log($"Ignoring lever collider {handleCol.name} for handle {handle.name}");
+                    Common.IgnoreCollider(transform, _triggers, handleCol);
+                }
+            }
+
             if (startToggledOn)
             {
-                _currentRotation = maxRotation;
+                _currentRotation = minMaxRotation.y;
                 IsToggled = true;
                 UpdateRotation();
             }
@@ -250,8 +274,8 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void CacheRotations()
         {
-            cached_top = transform.localRotation;
-            cached_bottom = transform.localRotation * Quaternion.Euler(-maxRotation, 0, 0);
+            cached_top = Quaternion.Euler(CrossAxis * minMaxRotation.x);
+            cached_bottom = Quaternion.Euler(CrossAxis * minMaxRotation.y);
         }
         
         private void OnEnable()
@@ -368,7 +392,7 @@ namespace JanoobaAssets.ImmersiveInteractions
                 {
                     // Retract
                     // * 90f for a more intuitive return number due to it being angles
-                    _currentRotation = Mathf.MoveTowards(_currentRotation, IsToggled ? maxRotation : 0, returnRate * 90f * Time.fixedDeltaTime);
+                    _currentRotation = Mathf.MoveTowards(_currentRotation, IsToggled ? minMaxRotation.y : minMaxRotation.x, returnRate * 90f * Time.fixedDeltaTime);
                 }
 
                 // Push logic is in OnTriggerStay because it needs to run afterwards
@@ -383,66 +407,70 @@ namespace JanoobaAssets.ImmersiveInteractions
                 return;
             }
 
-            // Estimate deepest collider
-            float deepestPenetration = float.MinValue;
-            Collider deepestCollider = null;
-            float closestTrigger = float.MaxValue;
-            Collider penetratedTrigger = null;
-            PlayerBone touchingBone = null;
-
-            for (int c = 0; c < _collectedColliders.Length; c++)
+            // Handle handling (lol)
+            if (IsHandleEnabledAndGrabbed)
             {
-                var other = _collectedColliders[c];
-                var bone = _collectedBones[c];
-                if (other == null) continue;
-
-                // Early return based off penetration estimate
-                var depth = Common.EstimatePenetration(transform, outAxis, other);
-                if (depth > deepestPenetration)
+                if (Networking.LocalPlayer.IsUserInVR())
                 {
-                    deepestPenetration = depth;
-                    deepestCollider = other;
-                    touchingBone = bone;
+                    Vector3 originToHandle = handle.transform.position - transform.position;
+                    handleTargetPoint = Vector3.ProjectOnPlane(originToHandle, CrossAxis);
+                    float targetRotation = Vector3.SignedAngle(transform.parent.forward, handleTargetPoint, CrossAxis);
+                    _currentRotation = targetRotation; //Mathf.MoveTowards(_currentRotation, targetRotation, returnRate * 90f * Time.fixedDeltaTime);
                 }
-
-                // Get closest trigger
-                for (var t = 0; t < _triggers.Length; t++)
+                else
                 {
-                    var trigger = _triggers[t];
-                    if (trigger == fallbackCollider) continue;
-
-                    var dist = Vector3.Distance(trigger.transform.position, other.transform.position);
-                    if (dist < closestTrigger)
+                    var trackingData = Networking.LocalPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
+                    var headForward = trackingData.rotation * Vector3.forward;
+                    
+                    Plane plane = new Plane(CrossAxis, transform.position);
+                    Ray ray = new Ray(trackingData.position, headForward);
+                    if (plane.Raycast(ray, out float enter))
                     {
-                        closestTrigger = dist;
-                        penetratedTrigger = trigger;
+                        handleTargetPoint = ray.GetPoint(enter) - transform.position;
+                        float targetRotation = Vector3.SignedAngle(transform.parent.forward, handleTargetPoint, CrossAxis);
+                        _currentRotation = targetRotation; //Mathf.MoveTowards(_currentRotation, targetRotation, returnRate * 90f * Time.fixedDeltaTime);
                     }
                 }
             }
-
-            // Process deepest
-
-            // Don't recalculate idle colliders
-            if (deepestCollider && !ColliderIdle(deepestCollider))
+            
+            for (int c = 0; c < _collectedColliders.Length; c++)
             {
-                if (CalculatePenetration_Slow(deepestCollider, penetratedTrigger, out float penetration, out float sign) && penetration > _penetration)
+                var otherCol = _collectedColliders[c];
+                var bone = _collectedBones[c];
+             
+                if (otherCol == null)
+                    continue;
+
+                if (ColliderIdle(otherCol))
+                    continue;
+                
+                for (int t = 0; t < _triggers.Length; t++)
                 {
-                    _penetration = penetration;
-                    _touchingHand = touchingBone ? touchingBone.hand : VRC_Pickup.PickupHand.None;
+                    var penetratedTrigger = _triggers[t];
 
-                    // Rotation direction
-                    _currentRotation += _penetration * sign;
-
-                    //Clamp
-                    _currentRotation = Mathf.Clamp(_currentRotation, 0, maxRotation);
-                    UpdateRotation();
-
-                    if (_sleeping)
+                    if (penetratedTrigger == fallbackCollider)
+                        continue;
+                    
+                    if (CalculatePenetration_Slow(otherCol, penetratedTrigger, out float deltaRotation))
                     {
-                        if (networkSync)
-                            SendCustomNetworkEvent(NetworkEventTarget.All, nameof(Wake));
-                        else
-                            Wake();
+                        _penetration = deltaRotation;
+                        _touchingHand = bone ? bone.hand : VRC_Pickup.PickupHand.None;
+
+                        // Rotation direction
+                        _currentRotation += deltaRotation;
+
+                        //Clamp
+                        _currentRotation = ClampRotation(_currentRotation);
+                    
+                        UpdateRotation();
+
+                        if (_sleeping)
+                        {
+                            if (networkSync)
+                                SendCustomNetworkEvent(NetworkEventTarget.All, nameof(Wake));
+                            else
+                                Wake();
+                        }
                     }
                 }
             }
@@ -456,7 +484,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             else
                 _framesIdle = 0;
 
-            if (_framesIdle > SLEEP_FRAMES)
+            if (_framesIdle > SLEEP_FRAMES && !IsHandleEnabledAndGrabbed)
             {
                 Sleep();
             }
@@ -465,7 +493,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void Update()
         {
             if (fallbackCollider) fallbackCollider.enabled = UseFallback;
-            DisableInteractive = !UseFallback;
+            DisableInteractive = !UseFallback || (useHandle && forceUseHandleForNonVR);
 
             if (isLocked || (disableWhenNetworkClogged && Networking.IsClogged))
             {
@@ -536,16 +564,16 @@ namespace JanoobaAssets.ImmersiveInteractions
                 var trigger = _triggers[i];
                 if (trigger == fallbackCollider) continue;
 
-                if (CalculatePenetration_Slow(other, trigger, out float penetration, out float sign) && penetration > _penetration)
+                if (CalculatePenetration_Slow(other, trigger, out float deltaRotation))
                 {
-                    _penetration = penetration;
+                    _penetration = deltaRotation;
                     if (bone) _touchingHand = bone.hand;
 
                     // Rotation direction
-                    _currentRotation += _penetration * sign;
+                    _currentRotation += deltaRotation;
 
                     //Clamp
-                    _currentRotation = Mathf.Clamp(_currentRotation, 0, maxRotation);
+                    _currentRotation = ClampRotation(_currentRotation);
                     UpdateRotation();
                 }
             }
@@ -574,7 +602,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void UpdateRotation()
         {
-            CurrentUnitProgress = Mathf.Clamp01(_currentRotation / maxRotation);
+            CurrentUnitProgress = Mathf.InverseLerp(minMaxRotation.x, minMaxRotation.y, _currentRotation);
             
             // If this button has just enabled and hasn't reset yet
             // We need to wait for it to reset before we can trigger it
@@ -586,8 +614,7 @@ namespace JanoobaAssets.ImmersiveInteractions
                     _hasResetSinceEnabled = true;
             }
             
-            transform.rotation = Quaternion.Slerp(TopRotation, BotRotation, CurrentUnitProgress);
-
+            transform.rotation = Quaternion.Lerp(TopRotation, BotRotation, CurrentUnitProgress);
             ApplyAnimation();
         }
 
@@ -610,6 +637,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             if (!isToggleSwitch)
             {
                 _fallbackPress = true;
+                _currentRotation = IsToggled ? minMaxRotation.x : minMaxRotation.y;
                 SendCustomEventDelayedSeconds(nameof(NonVR_Release), fallbackPressTime);
             }
         }
@@ -617,6 +645,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         public void NonVR_Release()
         {
             _fallbackPress = false;
+            _currentRotation = IsToggled ? minMaxRotation.y : minMaxRotation.x;
         }
 
         public void Pressed(bool isToggledOn)
@@ -647,11 +676,7 @@ namespace JanoobaAssets.ImmersiveInteractions
                 Common.SendEvents(transform, IsToggled, pressedEventName, isToggleSwitch, forceSendStateless, udonReceivers);
             }
 
-            if (UseFallback)
-            {
-                _currentRotation = maxRotation;
-            }
-            else
+            if (!UseFallback)
             {
                 PlayHaptics();
             }
@@ -683,11 +708,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             ApplyTint();
             ApplyTexture();
 
-            if (UseFallback)
-            {
-                _currentRotation = IsToggled ? maxRotation : 0f;
-            }
-            else
+            if (!UseFallback)
             {
                 PlayHaptics();
             }
@@ -697,6 +718,29 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         #region Utilities
 
+        private Vector3 ConvertAxisToVector(Axis axis)
+        {
+            switch (axis)
+            {
+                case Axis.X:
+                    return transform.right;
+                case Axis.Y:
+                    return transform.up;
+                case Axis.Z:
+                    return transform.forward;
+            }
+
+            return transform.forward;
+        }
+        
+        private float ClampRotation(float rotation)
+        {
+            if (minMaxRotation.x < minMaxRotation.y)
+                return Mathf.Clamp(rotation, minMaxRotation.x, minMaxRotation.y);
+            else
+                return Mathf.Clamp(rotation, minMaxRotation.y, minMaxRotation.x);
+        }
+        
         private void TriggerPress()
         {
             if (!_hasResetSinceEnabled) return;
@@ -727,36 +771,47 @@ namespace JanoobaAssets.ImmersiveInteractions
             }
         }
 
-        private bool CalculatePenetration_Slow(Collider incomingCollider, Collider thisCollider, out float penetration, out float sign)
+        private bool CalculatePenetration_Slow(Collider incomingCollider, Collider thisCollider, out float rotation)
         {
+            rotation = 0;
             if (Physics.ComputePenetration(
                     thisCollider, thisCollider.transform.position, thisCollider.transform.rotation,
                     incomingCollider, incomingCollider.transform.position, incomingCollider.transform.rotation,
                     out var direction, out var distance))
             {
-                var origin = transform.position;
-                var closestPoint = incomingCollider.ClosestPoint(transform.position);
-                var closestDepenetration = closestPoint + distance * direction;
+                //Debug.Log($"Penetration: {incomingCollider.name}:{incomingCollider.GetType().Name} - {thisCollider.name}:{thisCollider.GetType().Name}");
+                Vector3 originalPosition = transform.position;
+                float paddedDistance = distance + 0.001f;
+                transform.position += direction * paddedDistance;
+                Physics.SyncTransforms();
 
-                var originToClosest = closestPoint - origin;
-                var originToDepenetration = closestDepenetration - origin;
-                var closestToDepenetration = closestDepenetration - closestPoint;
+                Vector3 contactPoint;
+                Debug.DrawLine(transform.position, transform.position - (direction * distance), new Color(0.52f, 1f, 0.26f));
+                if (_rigidbody.SweepTest(-direction, out RaycastHit hit, Mathf.Infinity, QueryTriggerInteraction.Collide))
+                {
+                    contactPoint = hit.point;
+                    
+                    Debug.DrawLine(contactPoint, contactPoint + (direction * paddedDistance), new Color(1f, 0.61f, 0.13f));
+                    
+                    Vector3 origin = originalPosition;
+                    Vector3 p1 = contactPoint;
+                    Vector3 p2 = contactPoint + (direction * paddedDistance);
+                    
+                    Vector3 oToP1 = p1 - origin;
+                    Vector3 oToP2 = p2 - origin;
 
-                Debug.DrawLine(origin, origin + originToClosest, new Color(1f, 0.5f, 0f));
-                Debug.DrawLine(origin + originToClosest, origin + originToDepenetration, Color.magenta);
+                    rotation = Vector3.SignedAngle(oToP2, oToP1, transform.right);
+                    
+                    if (minMaxRotation.y < minMaxRotation.x)
+                        rotation = -rotation;
+                    //transform.RotateAround(contactPoint, transform.right, angle);
+                }
+                
+                transform.position = originalPosition;
 
-                // Try to limit pushing the button from behind
-                var isDown = !(Vector3.Dot(outAxis, direction) > 0.1f || Vector3.Dot(outAxis, originToClosest.normalized) < 0.1f);
-
-                penetration = Mathf.Acos((originToClosest.sqrMagnitude + originToDepenetration.sqrMagnitude - closestToDepenetration.sqrMagnitude) / Mathf.Max(0.000001f, 2 * originToClosest.magnitude * originToDepenetration.magnitude));
-                penetration *= Mathf.Rad2Deg;
-
-                sign = -Mathf.Sign(Vector3.SignedAngle(originToClosest, originToDepenetration, crossAxis));
-                return isDown;
+                return true;
             }
 
-            penetration = 0;
-            sign = 0;
             return false;
         }
 
@@ -933,10 +988,17 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = Color.white;
-            Gizmos.DrawLine(transform.position, transform.position + upAxis * 0.1f);
-            Gizmos.DrawLine(transform.position, transform.position + outAxis * 0.1f);
-            Gizmos.DrawLine(transform.position, transform.position + crossAxis * 0.1f);
+            var transparency = new Color(1f, 1f, 1f, 0.5f);
+            Gizmos.color = Color.blue * transparency;
+            Gizmos.DrawLine(transform.position, transform.position + OutAxis * 0.1f);
+            Gizmos.color = Color.red * transparency;
+            Gizmos.DrawLine(transform.position, transform.position + CrossAxis * 0.1f);
+            
+            if (useHandle)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position + handleTargetPoint, 0.05f);
+            }
         }
     }
 }

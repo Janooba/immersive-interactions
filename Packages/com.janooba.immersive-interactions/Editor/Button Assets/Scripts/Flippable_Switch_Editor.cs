@@ -21,7 +21,9 @@ namespace JanoobaAssets.ImmersiveInteractions
         private SerializedProperty detectStatic;
         private SerializedProperty ignoredColliders;
         
-        private SerializedProperty maxRotation;
+        private SerializedProperty minMaxRotation;
+        private SerializedProperty rotationAxis;
+        private SerializedProperty outerAxis;
         private SerializedProperty triggerZone;
 
         private SerializedProperty returnRate;
@@ -63,6 +65,10 @@ namespace JanoobaAssets.ImmersiveInteractions
         private SerializedProperty animator;
         private SerializedProperty progressParameter;
 
+        private SerializedProperty useHandle;
+        private SerializedProperty handle;
+        private SerializedProperty forceUseHandle;
+        
         private SerializedProperty enableHaptics;
         private SerializedProperty hapticsDuration;
         private SerializedProperty hapticsAmplitude;
@@ -83,7 +89,9 @@ namespace JanoobaAssets.ImmersiveInteractions
             detectStatic = serializedObject.FindProperty(nameof(Flippable_Switch.detectStatic));
             ignoredColliders = serializedObject.FindProperty(nameof(Flippable_Switch.ignoredColliders));
             
-            maxRotation = serializedObject.FindProperty(nameof(Flippable_Switch.maxRotation));
+            minMaxRotation = serializedObject.FindProperty(nameof(Flippable_Switch.minMaxRotation));
+            rotationAxis = serializedObject.FindProperty(nameof(Flippable_Switch.rotationAxis));
+            outerAxis = serializedObject.FindProperty(nameof(Flippable_Switch.outerAxis));
             triggerZone = serializedObject.FindProperty(nameof(Flippable_Switch.triggerZone));
 
             returnRate = serializedObject.FindProperty(nameof(Flippable_Switch.returnRate));
@@ -124,6 +132,10 @@ namespace JanoobaAssets.ImmersiveInteractions
             enableAnimation = serializedObject.FindProperty(nameof(Flippable_Switch.enableAnimation));  
             animator = serializedObject.FindProperty(nameof(Flippable_Switch.animator));         
             progressParameter = serializedObject.FindProperty(nameof(Flippable_Switch.progressParameter));
+
+            useHandle = serializedObject.FindProperty(nameof(Flippable_Switch.useHandle));
+            handle = serializedObject.FindProperty(nameof(Flippable_Switch.handle));
+            forceUseHandle = serializedObject.FindProperty(nameof(Flippable_Switch.forceUseHandleForNonVR));
             
             enableHaptics = serializedObject.FindProperty(nameof(Flippable_Switch.enableHaptics));
             hapticsDuration = serializedObject.FindProperty(nameof(Flippable_Switch.hapticsDuration));
@@ -134,6 +146,17 @@ namespace JanoobaAssets.ImmersiveInteractions
             #endregion
         }
         
+        public void OnSceneGUI()
+        {
+            var switchh = target as Flippable_Switch;
+            var switchTransform = switchh.transform;
+            var switchParent = switchTransform.parent;
+            
+            Handles.color = new Color(1, 0, 0, 0.2f);
+            Handles.matrix = switchParent.localToWorldMatrix;
+            Handles.DrawSolidArc(switchTransform.localPosition, Vector3.right, switchh.MinRotationVector, switchh.minMaxRotation.y - switchh.minMaxRotation.x, 0.02f);
+        }
+
         public override void OnInspectorGUI()
         {
             Flippable_Switch flippableSwitch = (Flippable_Switch)target;
@@ -184,7 +207,11 @@ namespace JanoobaAssets.ImmersiveInteractions
             EditorGUILayout.Space(12);
             GUILayout.Label("// GENERAL SETTINGS", Shared_EditorUtility.BoldHeader);
             
-            EditorGUILayout.PropertyField(maxRotation);
+            EditorGUILayout.PropertyField(minMaxRotation);
+            
+            EditorGUILayout.PropertyField(rotationAxis);
+            EditorGUILayout.PropertyField(outerAxis);
+            
             EditorGUILayout.PropertyField(triggerZone);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(cooldown);
@@ -337,6 +364,18 @@ namespace JanoobaAssets.ImmersiveInteractions
             {
                 EditorGUILayout.PropertyField(animator);
                 EditorGUILayout.PropertyField(progressParameter);
+            }
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.BeginVertical("GroupBox");
+            EditorGUILayout.BeginHorizontal();
+            flippableSwitch.useHandle = EditorGUILayout.ToggleLeft("Handle", flippableSwitch.useHandle, EditorStyles.boldLabel, GUILayout.Width(150));
+            GUILayout.Label("Attach a handle to this switch/lever for easy pulling");
+            EditorGUILayout.EndHorizontal();
+            if (flippableSwitch.useHandle)
+            {
+                EditorGUILayout.PropertyField(handle);
+                EditorGUILayout.PropertyField(forceUseHandle);
             }
             EditorGUILayout.EndVertical();
             

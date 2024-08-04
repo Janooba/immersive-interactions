@@ -6,6 +6,13 @@ using VRC.Udon;
 
 namespace JanoobaAssets.ImmersiveInteractions
 {
+    public enum Axis
+    {
+        X,
+        Y,
+        Z
+    }
+    
     public static class Common
     {
         public static bool IsGameObjectLayerInBlacklist(GameObject go)
@@ -26,11 +33,13 @@ namespace JanoobaAssets.ImmersiveInteractions
         {
             if (other == null) return;
 
+            // This was meant to optimize something, but I can't remember what
+            // and it's causing issues with the lever handle system
+            // var rb = other.GetComponentInParent<Rigidbody>();
+            // if (rb && !transform.IsChildOf(rb.transform)) return;
+            
             for (var i = 0; i < triggers.Length; i++)
             {
-                var rb = other.GetComponentInParent<Rigidbody>();
-                if (rb && !transform.IsChildOf(rb.transform)) continue;
-
                 var trigger = triggers[i];
                 Physics.IgnoreCollision(trigger, other);
             }
