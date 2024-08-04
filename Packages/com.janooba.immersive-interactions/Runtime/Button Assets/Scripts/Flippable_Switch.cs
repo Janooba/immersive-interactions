@@ -96,6 +96,14 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         public Texture2D lockedTexture;
 
+        // Handle
+        public bool useHandle;
+        public Lever_Handle handle;
+        [Tooltip("If true, Non VR players will not be able to click this switch and must use the handle.")]
+        public bool forceUseHandleForNonVR;
+        
+        private bool IsHandleEnabledAndGrabbed => useHandle && handle && handle.IsGrabbed;
+        
         // Haptics
         public bool enableHaptics = true;
         public float hapticsDuration = 0.05f;
@@ -177,6 +185,9 @@ namespace JanoobaAssets.ImmersiveInteractions
         public Vector3 MinRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * Vector3.forward;
         public Vector3 MaxRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * Vector3.forward;
 
+        // Handle
+        private Vector3 handleTargetPoint;
+        
         // Sleeping
         private bool _sleeping = false;
         private int _framesIdle = 0;
@@ -237,6 +248,15 @@ namespace JanoobaAssets.ImmersiveInteractions
             for (int i = 0; i < ignoredColliders.Length; i++)
             {
                 Common.IgnoreCollider(transform, _triggers, ignoredColliders[i]);
+            }
+
+            if (useHandle && handle)
+            {
+                foreach (var handleCol in handle.GetComponentsInChildren<Collider>())
+                {
+                    Debug.Log($"Ignoring lever collider {handleCol.name} for handle {handle.name}");
+                    Common.IgnoreCollider(transform, _triggers, handleCol);
+                }
             }
 
             if (startToggledOn)
@@ -387,6 +407,32 @@ namespace JanoobaAssets.ImmersiveInteractions
                 return;
             }
 
+            // Handle handling (lol)
+            if (IsHandleEnabledAndGrabbed)
+            {
+                if (Networking.LocalPlayer.IsUserInVR())
+                {
+                    Vector3 originToHandle = handle.transform.position - transform.position;
+                    handleTargetPoint = Vector3.ProjectOnPlane(originToHandle, CrossAxis);
+                    float targetRotation = Vector3.SignedAngle(transform.parent.forward, handleTargetPoint, CrossAxis);
+                    _currentRotation = targetRotation; //Mathf.MoveTowards(_currentRotation, targetRotation, returnRate * 90f * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    var trackingData = Networking.LocalPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
+                    var headForward = trackingData.rotation * Vector3.forward;
+                    
+                    Plane plane = new Plane(CrossAxis, transform.position);
+                    Ray ray = new Ray(trackingData.position, headForward);
+                    if (plane.Raycast(ray, out float enter))
+                    {
+                        handleTargetPoint = ray.GetPoint(enter) - transform.position;
+                        float targetRotation = Vector3.SignedAngle(transform.parent.forward, handleTargetPoint, CrossAxis);
+                        _currentRotation = targetRotation; //Mathf.MoveTowards(_currentRotation, targetRotation, returnRate * 90f * Time.fixedDeltaTime);
+                    }
+                }
+            }
+            
             for (int c = 0; c < _collectedColliders.Length; c++)
             {
                 var otherCol = _collectedColliders[c];
@@ -438,7 +484,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             else
                 _framesIdle = 0;
 
-            if (_framesIdle > SLEEP_FRAMES)
+            if (_framesIdle > SLEEP_FRAMES && !IsHandleEnabledAndGrabbed)
             {
                 Sleep();
             }
@@ -447,7 +493,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void Update()
         {
             if (fallbackCollider) fallbackCollider.enabled = UseFallback;
-            DisableInteractive = !UseFallback;
+            DisableInteractive = !UseFallback || (useHandle && forceUseHandleForNonVR);
 
             if (isLocked || (disableWhenNetworkClogged && Networking.IsClogged))
             {
@@ -947,6 +993,12 @@ namespace JanoobaAssets.ImmersiveInteractions
             Gizmos.DrawLine(transform.position, transform.position + OutAxis * 0.1f);
             Gizmos.color = Color.red * transparency;
             Gizmos.DrawLine(transform.position, transform.position + CrossAxis * 0.1f);
+            
+            if (useHandle)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position + handleTargetPoint, 0.05f);
+            }
         }
     }
 }

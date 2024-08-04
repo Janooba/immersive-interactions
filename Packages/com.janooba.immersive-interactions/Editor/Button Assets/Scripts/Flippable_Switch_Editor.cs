@@ -65,6 +65,10 @@ namespace JanoobaAssets.ImmersiveInteractions
         private SerializedProperty animator;
         private SerializedProperty progressParameter;
 
+        private SerializedProperty useHandle;
+        private SerializedProperty handle;
+        private SerializedProperty forceUseHandle;
+        
         private SerializedProperty enableHaptics;
         private SerializedProperty hapticsDuration;
         private SerializedProperty hapticsAmplitude;
@@ -128,6 +132,10 @@ namespace JanoobaAssets.ImmersiveInteractions
             enableAnimation = serializedObject.FindProperty(nameof(Flippable_Switch.enableAnimation));  
             animator = serializedObject.FindProperty(nameof(Flippable_Switch.animator));         
             progressParameter = serializedObject.FindProperty(nameof(Flippable_Switch.progressParameter));
+
+            useHandle = serializedObject.FindProperty(nameof(Flippable_Switch.useHandle));
+            handle = serializedObject.FindProperty(nameof(Flippable_Switch.handle));
+            forceUseHandle = serializedObject.FindProperty(nameof(Flippable_Switch.forceUseHandleForNonVR));
             
             enableHaptics = serializedObject.FindProperty(nameof(Flippable_Switch.enableHaptics));
             hapticsDuration = serializedObject.FindProperty(nameof(Flippable_Switch.hapticsDuration));
@@ -356,6 +364,18 @@ namespace JanoobaAssets.ImmersiveInteractions
             {
                 EditorGUILayout.PropertyField(animator);
                 EditorGUILayout.PropertyField(progressParameter);
+            }
+            EditorGUILayout.EndVertical();
+            
+            EditorGUILayout.BeginVertical("GroupBox");
+            EditorGUILayout.BeginHorizontal();
+            flippableSwitch.useHandle = EditorGUILayout.ToggleLeft("Handle", flippableSwitch.useHandle, EditorStyles.boldLabel, GUILayout.Width(150));
+            GUILayout.Label("Attach a handle to this switch/lever for easy pulling");
+            EditorGUILayout.EndHorizontal();
+            if (flippableSwitch.useHandle)
+            {
+                EditorGUILayout.PropertyField(handle);
+                EditorGUILayout.PropertyField(forceUseHandle);
             }
             EditorGUILayout.EndVertical();
             
