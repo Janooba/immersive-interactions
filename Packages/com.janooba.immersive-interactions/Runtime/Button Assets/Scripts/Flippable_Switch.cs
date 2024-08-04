@@ -143,9 +143,10 @@ namespace JanoobaAssets.ImmersiveInteractions
         private double _timePressed = 0;
         private double TimeSincePressed => Networking.GetServerTimeInSeconds() - _timePressed;
 
-        private Quaternion TopRotation => cached_top * transform.parent.rotation;
-        private Quaternion BotRotation => cached_bottom * transform.parent.rotation;
+        private Quaternion TopRotation => cached_top * transform.parent.rotation * cached_base;
+        private Quaternion BotRotation => cached_bottom * transform.parent.rotation * cached_base;
 
+        [HideInInspector, SerializeField] private Quaternion cached_base;
         [HideInInspector, SerializeField] private Quaternion cached_top;
         [HideInInspector, SerializeField] private Quaternion cached_bottom;
         [HideInInspector, SerializeField] private Rigidbody _rigidbody;
@@ -274,8 +275,10 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void CacheRotations()
         {
+            cached_base = transform.localRotation;
+
             cached_top = Quaternion.Euler(CrossAxis * minMaxRotation.x);
-            cached_bottom = Quaternion.Euler(CrossAxis * minMaxRotation.y);
+            cached_bottom = Quaternion.Euler(CrossAxis * minMaxRotation.y); 
         }
         
         private void OnEnable()
@@ -800,11 +803,10 @@ namespace JanoobaAssets.ImmersiveInteractions
                     Vector3 oToP1 = p1 - origin;
                     Vector3 oToP2 = p2 - origin;
 
-                    rotation = Vector3.SignedAngle(oToP2, oToP1, transform.right);
+                    rotation = Vector3.SignedAngle(oToP1, oToP2, CrossAxis);
                     
-                    if (minMaxRotation.y < minMaxRotation.x)
-                        rotation = -rotation;
-                    //transform.RotateAround(contactPoint, transform.right, angle);
+                    // if (minMaxRotation.x < minMaxRotation.y)
+                    //     rotation = -rotation;
                 }
                 
                 transform.position = originalPosition;
@@ -986,7 +988,8 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         #endregion
 
-        private void OnDrawGizmos()
+#if !COMPILER_UDONSHARP
+        private void OnDrawGizmosSelected()
         {
             var transparency = new Color(1f, 1f, 1f, 0.5f);
             Gizmos.color = Color.blue * transparency;
@@ -999,6 +1002,21 @@ namespace JanoobaAssets.ImmersiveInteractions
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(transform.position + handleTargetPoint, 0.05f);
             }
+            
+            var meshes = GetComponentsInChildren<MeshFilter>();
+            foreach (var mesh in meshes)
+            {
+                if (!mesh || !mesh.sharedMesh) continue;
+                
+                Gizmos.color = new Color(1f, 0.92f, 0.02f, 0.1f);
+                Gizmos.DrawMesh(mesh.sharedMesh, transform.position, TopRotation, transform.lossyScale);
+                Gizmos.DrawMesh(mesh.sharedMesh, transform.position, BotRotation, transform.lossyScale);
+                
+                Gizmos.color = new Color(1f, 0.92f, 0.02f, 0.2f);
+                Gizmos.DrawWireMesh(mesh.sharedMesh, transform.position, TopRotation, transform.lossyScale);
+                Gizmos.DrawWireMesh(mesh.sharedMesh, transform.position, BotRotation, transform.lossyScale);
+            }
         }
+#endif
     }
 }
