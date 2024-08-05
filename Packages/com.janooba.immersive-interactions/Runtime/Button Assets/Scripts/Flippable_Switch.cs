@@ -149,6 +149,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         [HideInInspector, SerializeField] private Quaternion cached_base;
         [HideInInspector, SerializeField] private Quaternion cached_top;
         [HideInInspector, SerializeField] private Quaternion cached_bottom;
+        [HideInInspector, SerializeField] private Vector3 cached_outAxis;
+        [HideInInspector, SerializeField] private Vector3 cached_midOutAxis;
         [HideInInspector, SerializeField] private Rigidbody _rigidbody;
         [HideInInspector, SerializeField] private PlayerSkeletonInfo _skeleton;
         private Collider[] _triggers;
@@ -183,8 +185,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         public Vector3 CrossAxis => ConvertAxisToVector(rotationAxis);
         public Vector3 OutAxis => ConvertAxisToVector(outerAxis);
 
-        public Vector3 MinRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * Vector3.forward;
-        public Vector3 MaxRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * Vector3.forward;
+        public Vector3 MinRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * Vector3.forward;
+        public Vector3 MaxRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * Vector3.forward;
 
         // Handle
         private Vector3 handleTargetPoint;
@@ -276,6 +278,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         private void CacheRotations()
         {
             cached_base = transform.localRotation;
+            cached_outAxis = OutAxis;
+            cached_midOutAxis = Quaternion.Euler(CrossAxis * Mathf.Lerp(minMaxRotation.x, minMaxRotation.y, 0.5f)) * transform.forward;
 
             cached_top = Quaternion.Euler(CrossAxis * minMaxRotation.x);
             cached_bottom = Quaternion.Euler(CrossAxis * minMaxRotation.y); 
@@ -417,8 +421,9 @@ namespace JanoobaAssets.ImmersiveInteractions
                 {
                     Vector3 originToHandle = handle.transform.position - transform.position;
                     handleTargetPoint = Vector3.ProjectOnPlane(originToHandle, CrossAxis);
-                    float targetRotation = Vector3.SignedAngle(transform.parent.forward, handleTargetPoint, CrossAxis);
-                    _currentRotation = targetRotation; //Mathf.MoveTowards(_currentRotation, targetRotation, returnRate * 90f * Time.fixedDeltaTime);
+                    float targetRotation = Vector3.SignedAngle(cached_midOutAxis, handleTargetPoint, CrossAxis);
+                    targetRotation -= Vector3.Angle(cached_midOutAxis, cached_outAxis);
+                    _currentRotation = targetRotation;
                 }
                 else
                 {
@@ -430,8 +435,9 @@ namespace JanoobaAssets.ImmersiveInteractions
                     if (plane.Raycast(ray, out float enter))
                     {
                         handleTargetPoint = ray.GetPoint(enter) - transform.position;
-                        float targetRotation = Vector3.SignedAngle(transform.parent.forward, handleTargetPoint, CrossAxis);
-                        _currentRotation = targetRotation; //Mathf.MoveTowards(_currentRotation, targetRotation, returnRate * 90f * Time.fixedDeltaTime);
+                        float targetRotation = Vector3.SignedAngle(cached_midOutAxis, handleTargetPoint, CrossAxis);
+                        targetRotation -= Vector3.Angle(cached_midOutAxis, cached_outAxis);
+                        _currentRotation = targetRotation;
                     }
                 }
             }
