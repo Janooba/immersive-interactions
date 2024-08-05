@@ -209,6 +209,11 @@ namespace JanoobaAssets.ImmersiveInteractions
             
             EditorGUILayout.PropertyField(minMaxRotation);
             
+            if (Mathf.Abs(minMaxRotation.vector2Value.y - minMaxRotation.vector2Value.x) >= 180)
+            {
+                EditorGUILayout.HelpBox("The difference between the min and max rotation is greater than or equal to 180 degrees. This may cause unexpected behavior.", MessageType.Warning);
+            }
+            
             EditorGUILayout.PropertyField(rotationAxis);
             EditorGUILayout.PropertyField(outerAxis);
             
