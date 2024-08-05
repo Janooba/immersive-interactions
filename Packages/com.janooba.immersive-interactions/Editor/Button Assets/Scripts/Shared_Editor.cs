@@ -7,7 +7,7 @@ namespace JanoobaAssets
 {
     public static class Shared_EditorUtility
     {
-        public const string VERSION = "v0.4.0-beta.4";
+        public const string VERSION = "v0.4.0-beta.5";
         
         private static GUIStyle _boldHeader = null;
         public static GUIStyle BoldHeader
