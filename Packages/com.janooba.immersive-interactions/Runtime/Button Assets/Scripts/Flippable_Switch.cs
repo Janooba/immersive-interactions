@@ -185,8 +185,8 @@ namespace JanoobaAssets.ImmersiveInteractions
         public Vector3 CrossAxis => ConvertAxisToVector(rotationAxis);
         public Vector3 OutAxis => ConvertAxisToVector(outerAxis);
 
-        public Vector3 MinRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * Vector3.forward;
-        public Vector3 MaxRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * Vector3.forward;
+        public Vector3 MinRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * OutAxis;
+        public Vector3 MaxRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * OutAxis;
 
         // Handle
         private Vector3 handleTargetPoint;
@@ -279,7 +279,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         {
             cached_base = transform.localRotation;
             cached_outAxis = OutAxis;
-            cached_midOutAxis = Quaternion.Euler(CrossAxis * Mathf.Lerp(minMaxRotation.x, minMaxRotation.y, 0.5f)) * transform.forward;
+            cached_midOutAxis = Quaternion.Euler(CrossAxis * Mathf.Lerp(minMaxRotation.x, minMaxRotation.y, 0.5f)) * OutAxis;
 
             cached_top = Quaternion.Euler(CrossAxis * minMaxRotation.x);
             cached_bottom = Quaternion.Euler(CrossAxis * minMaxRotation.y); 
