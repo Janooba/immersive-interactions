@@ -10,6 +10,8 @@ Online documentation for the Immersive Interactions package can be found [here](
 
 If you’d like to test out the system yourself, join the following world: [Immersive Interactions](https://vrchat.com/home/world/wrld_925c0e94-a683-4100-8696-7b289becf392)
 
+Need support? Join my discord! [Janooba's Workshop](https://discord.gg/yJdawheDCS)
+
 ## Dependencies
 
 - Udon Sharp
