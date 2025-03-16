@@ -143,16 +143,16 @@ namespace JanoobaAssets.ImmersiveInteractions
         private double _timePressed = 0;
         private double TimeSincePressed => Networking.GetServerTimeInSeconds() - _timePressed;
 
-        private Quaternion TopRotation => cached_top * transform.parent.rotation * cached_base;
-        private Quaternion BotRotation => cached_bottom * transform.parent.rotation * cached_base;
+        private Quaternion TopRotation => transform.parent.rotation * cached_top;
+        private Quaternion BotRotation => transform.parent.rotation * cached_bottom;
 
-        [HideInInspector, SerializeField] private Quaternion cached_base;
-        [HideInInspector, SerializeField] private Quaternion cached_top;
-        [HideInInspector, SerializeField] private Quaternion cached_bottom;
-        [HideInInspector, SerializeField] private Vector3 cached_outAxis;
-        [HideInInspector, SerializeField] private Vector3 cached_midOutAxis;
-        [HideInInspector, SerializeField] private Rigidbody _rigidbody;
+        [HideInInspector, SerializeField] private Quaternion         cached_top;
+        [HideInInspector, SerializeField] private Quaternion         cached_bottom;
+        [HideInInspector, SerializeField] private Vector3            cached_worldOutAxis;
+        [HideInInspector, SerializeField] private Vector3            cached_worldMidOutAxis;
+        [HideInInspector, SerializeField] private Rigidbody          _rigidbody;
         [HideInInspector, SerializeField] private PlayerSkeletonInfo _skeleton;
+        
         private Collider[] _triggers;
 
         public bool MissingSkeletonInfo => _skeleton == null;
@@ -182,11 +182,14 @@ namespace JanoobaAssets.ImmersiveInteractions
         
         public bool UseFallback => (Networking.LocalPlayer != null && !Networking.LocalPlayer.IsUserInVR()) || !_skeleton.HasHands || _skeleton.forceFallback;
 
-        public Vector3 CrossAxis => ConvertAxisToVector(rotationAxis);
-        public Vector3 OutAxis => ConvertAxisToVector(outerAxis);
+        public Vector3 LocalCrossAxis => ConvertAxisToVector(rotationAxis);
+        public Vector3 LocalOutAxis   => ConvertAxisToVector(outerAxis);
+        
+        public Vector3 WorldCrossAxis => transform.parent.rotation * ConvertAxisToVector(rotationAxis);
+        public Vector3 WorldOutAxis   => transform.parent.rotation * ConvertAxisToVector(outerAxis);
 
-        public Vector3 MinRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * OutAxis;
-        public Vector3 MaxRotationVector => cached_base * Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * OutAxis;
+        public Vector3 MinRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.x) * LocalOutAxis;
+        public Vector3 MaxRotationVector => Quaternion.Euler(ConvertAxisToVector(rotationAxis) * minMaxRotation.y) * LocalOutAxis;
 
         // Handle
         private Vector3 handleTargetPoint;
@@ -277,12 +280,11 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         private void CacheRotations()
         {
-            cached_base = transform.localRotation;
-            cached_outAxis = OutAxis;
-            cached_midOutAxis = Quaternion.Euler(CrossAxis * Mathf.Lerp(minMaxRotation.x, minMaxRotation.y, 0.5f)) * OutAxis;
+            cached_worldOutAxis = WorldOutAxis;
+            cached_worldMidOutAxis = transform.parent.rotation * (Quaternion.Euler(LocalCrossAxis * Mathf.Lerp(minMaxRotation.x, minMaxRotation.y, 0.5f)) * LocalOutAxis);
 
-            cached_top = Quaternion.Euler(CrossAxis * minMaxRotation.x);
-            cached_bottom = Quaternion.Euler(CrossAxis * minMaxRotation.y); 
+            cached_top = Quaternion.Euler(LocalCrossAxis * minMaxRotation.x);
+            cached_bottom = Quaternion.Euler(LocalCrossAxis * minMaxRotation.y); 
         }
         
         private void OnEnable()
@@ -420,23 +422,25 @@ namespace JanoobaAssets.ImmersiveInteractions
                 if (Networking.LocalPlayer.IsUserInVR())
                 {
                     Vector3 originToHandle = handle.transform.position - transform.position;
-                    handleTargetPoint = Vector3.ProjectOnPlane(originToHandle, CrossAxis);
-                    float targetRotation = Vector3.SignedAngle(cached_midOutAxis, handleTargetPoint, CrossAxis);
-                    targetRotation -= Vector3.Angle(cached_midOutAxis, cached_outAxis);
-                    _currentRotation = targetRotation;
+                    handleTargetPoint = Vector3.ProjectOnPlane(originToHandle, WorldCrossAxis);
+                    float targetRotation = Vector3.SignedAngle(cached_worldMidOutAxis, handleTargetPoint, WorldCrossAxis);
+                    targetRotation   -= Vector3.Angle(cached_worldMidOutAxis, cached_worldOutAxis);
+                    _currentRotation =  targetRotation;
                 }
                 else
                 {
                     var trackingData = Networking.LocalPlayer.GetTrackingData(VRCPlayerApi.TrackingDataType.Head);
                     var headForward = trackingData.rotation * Vector3.forward;
                     
-                    Plane plane = new Plane(CrossAxis, transform.position);
+                    Plane plane = new Plane(WorldCrossAxis, transform.position);
                     Ray ray = new Ray(trackingData.position, headForward);
                     if (plane.Raycast(ray, out float enter))
                     {
                         handleTargetPoint = ray.GetPoint(enter) - transform.position;
-                        float targetRotation = Vector3.SignedAngle(cached_midOutAxis, handleTargetPoint, CrossAxis);
-                        targetRotation -= Vector3.Angle(cached_midOutAxis, cached_outAxis);
+                        float targetRotation = Vector3.SignedAngle(cached_worldMidOutAxis, handleTargetPoint, WorldCrossAxis);
+                        Debug.Log("before" + targetRotation);
+                        targetRotation -= Vector3.Angle(cached_worldMidOutAxis, cached_worldOutAxis);
+                        Debug.Log("after" + targetRotation);
                         _currentRotation = targetRotation;
                     }
                 }
@@ -732,14 +736,14 @@ namespace JanoobaAssets.ImmersiveInteractions
             switch (axis)
             {
                 case Axis.X:
-                    return transform.right;
+                    return Vector3.right;
                 case Axis.Y:
-                    return transform.up;
+                    return Vector3.up;
                 case Axis.Z:
-                    return transform.forward;
+                    return Vector3.forward;
             }
 
-            return transform.forward;
+            return Vector3.forward;
         }
         
         private float ClampRotation(float rotation)
@@ -809,7 +813,7 @@ namespace JanoobaAssets.ImmersiveInteractions
                     Vector3 oToP1 = p1 - origin;
                     Vector3 oToP2 = p2 - origin;
 
-                    rotation = Vector3.SignedAngle(oToP1, oToP2, CrossAxis);
+                    rotation = Vector3.SignedAngle(oToP1, oToP2, WorldCrossAxis);
                     
                     // if (minMaxRotation.x < minMaxRotation.y)
                     //     rotation = -rotation;
@@ -993,21 +997,16 @@ namespace JanoobaAssets.ImmersiveInteractions
         }
 
         #endregion
-
 #if !COMPILER_UDONSHARP
         private void OnDrawGizmosSelected()
         {
             var transparency = new Color(1f, 1f, 1f, 0.5f);
             Gizmos.color = Color.blue * transparency;
-            Gizmos.DrawLine(transform.position, transform.position + OutAxis * 0.1f);
+            Gizmos.DrawLine(transform.position, transform.position + WorldOutAxis * 0.1f);
             Gizmos.color = Color.red * transparency;
-            Gizmos.DrawLine(transform.position, transform.position + CrossAxis * 0.1f);
-            
-            if (useHandle)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(transform.position + handleTargetPoint, 0.05f);
-            }
+            Gizmos.DrawLine(transform.position, transform.position + WorldCrossAxis * 0.1f);
+            Gizmos.color = new Color(1f, 0.92f, 0.02f, 0.2f);
+            Gizmos.DrawLine(transform.position, transform.position + cached_worldMidOutAxis * 0.1f);
             
             var meshes = GetComponentsInChildren<MeshFilter>();
             foreach (var mesh in meshes)
