@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 5123058934750864593}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 0.124}
+  m_LocalPosition: {x: -0, y: -0.0996, z: 0.0403}
   m_LocalScale: {x: 0.020084174, y: 0.020084174, z: 0.020084174}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -193,8 +193,8 @@ MonoBehaviour:
   lever: {fileID: 8457189609260423120}
   pickup: {fileID: 4544862391040808649}
   forceGrabbed: 0
-  _homePosition: {x: 0, y: -0.000000014782406, z: 0.1009146}
-  _homeRotation: {x: 0, y: 0, z: 0, w: 1}
+  _homePosition: {x: 0.000000017246144, y: -0.0003422573, z: 0.10107614}
+  _homeRotation: {x: -0.6427876, y: -0.000000004457987, z: 0.000000010642007, w: 0.7660445}
 --- !u!114 &4592924910945673919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,13 +509,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8539977612609416826}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.6427876, y: 0, z: 0, w: 0.7660445}
   m_LocalPosition: {x: 0, y: 0, z: 0.023085354}
   m_LocalScale: {x: 1, y: 1.0000001, z: 1.0000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6105040611536066217}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 80, y: 0, z: 0}
 --- !u!33 &5119602787538076898
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -689,7 +689,7 @@ MonoBehaviour:
   - {fileID: 6076935999530531339}
   isToggleSwitch: 0
   startToggledOn: 0
-  minMaxRotation: {x: 85, y: -85}
+  minMaxRotation: {x: 80, y: -80}
   rotationAxis: 0
   outerAxis: 2
   triggerZone: 0.95
@@ -735,8 +735,11 @@ MonoBehaviour:
   depressedEventName: Button_Depressed
   forceSendStateless: 0
   udonReceivers: []
-  cached_top: {x: 0.67559016, y: 0, z: 0, w: 0.7372773}
-  cached_bottom: {x: -0.67559016, y: 0, z: 0, w: 0.7372773}
+  cached_base: {x: 0.6427876, y: 0, z: 0, w: 0.7660445}
+  cached_top: {x: 0.6427876, y: 0, z: 0, w: 0.76604444}
+  cached_bottom: {x: -0.6427876, y: 0, z: 0, w: 0.76604444}
+  cached_worldOutAxis: {x: -0.4425469, y: 0.60622066, z: -0.660794}
+  cached_worldMidOutAxis: {x: -0.4425469, y: 0.60622066, z: -0.660794}
   _rigidbody: {fileID: 9189159092013526798}
   _skeleton: {fileID: 0}
 --- !u!114 &8521348651653956778

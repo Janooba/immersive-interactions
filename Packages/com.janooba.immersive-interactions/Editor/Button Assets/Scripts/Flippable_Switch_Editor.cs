@@ -154,7 +154,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             
             Handles.color = new Color(1, 0, 0, 0.2f);
             Handles.matrix = switchParent.localToWorldMatrix;
-            Handles.DrawSolidArc(switchTransform.localPosition, Vector3.right, switchh.MinRotationVector, switchh.minMaxRotation.y - switchh.minMaxRotation.x, 0.02f);
+            Handles.DrawSolidArc(switchTransform.localPosition, switchh.LocalCrossAxis, switchh.MinRotationVector, switchh.minMaxRotation.y - switchh.minMaxRotation.x, 0.02f);
         }
 
         public override void OnInspectorGUI()
