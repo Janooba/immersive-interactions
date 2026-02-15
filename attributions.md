@@ -13,4 +13,5 @@
 - Bed icons created by Ayub Irawan - Flaticon
 
 # Special thanks
-- NarryG for helping test and provide feedback!
+- NarryG for helping test and provide feedback
+- The KOVR community for giving me a reason to make this and keep up with it

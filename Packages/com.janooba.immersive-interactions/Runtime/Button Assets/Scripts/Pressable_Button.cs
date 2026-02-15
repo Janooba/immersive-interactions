@@ -323,7 +323,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
             if (TimeSincePressed < cooldown || IsTriggered)
             {
-                //Debug.Log($"Cannot press, cooldown hasn't elapsed yet! TimeSincePressed: {TimeSincePressed}");
+                //Log($"Cannot press, cooldown hasn't elapsed yet! TimeSincePressed: {TimeSincePressed}");
                 return;
             }
 
@@ -335,7 +335,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             }
             else
             {
-                Debug.Log($"Cannot interact, not owner!");
+                Log($"Cannot interact, not owner!");
             }
         }
 
@@ -514,7 +514,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
             if (Common.IsGameObjectLayerInBlacklist(other.gameObject))
             {
-                Debug.Log($"Ignoring {other.gameObject.name} due to it being on the blacklist");
+                Log($"Ignoring {other.gameObject.name} due to it being on the blacklist");
                 return;
             }
 
@@ -707,8 +707,13 @@ namespace JanoobaAssets.ImmersiveInteractions
         {
             if (!_hasResetSinceEnabled)
             {
-                Debug.Log("Waiting for button to reset before triggering.");
+                Log("Waiting for button to reset before triggering.");
                 return;
+            }
+            
+            if (Networking.IsClogged)
+            {
+                LogWarning("Network is clogged, interacting with this button may fail!");
             }
             
             if (isToggleButton)
@@ -888,16 +893,19 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         public void Pressed()
         {
+            Log("Pressed");
             Pressed(false);
         }
 
         public void Pressed_On()
         {
+            Log("Pressed On");
             Pressed(true);
         }
 
         public void Pressed_Off()
         {
+            Log("Pressed Off");
             Pressed(false);
         }
         
@@ -948,6 +956,21 @@ namespace JanoobaAssets.ImmersiveInteractions
             // Toggle position
             Gizmos.color = Color.green;
             Gizmos.DrawLine(ToggleTopPosition - Vector3.left * 0.003f, ToggleTopPosition + Vector3.left * 0.003f);
+        }
+
+        private void Log(string message)
+        {
+            Debug.Log($"[IMM BUTTON] {message}\nHierarchy: {Common.GetHierarchy(transform)}");
+        }
+        
+        private void LogWarning(string message)
+        {
+            Debug.LogWarning($"[IMM BUTTON] {message}\nHierarchy: {Common.GetHierarchy(transform)}");
+        }
+        
+        private void LogError(string message)
+        {
+            Debug.LogError($"[IMM BUTTON] {message}\nHierarchy: {Common.GetHierarchy(transform)}");
         }
     }
 }

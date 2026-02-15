@@ -10,6 +10,7 @@
 - Min and max angles are now applied to whatever rotation the button starts in
 - Fixed non vr grabbing flipping to opposite side at extents when original rotation was near min or max
 - Fixed arbitrary handle and flip switch rotations. WARNING: You may need to reconfigure your rocker switches and levers!
+- Added more robust logging for debug purposes
 
 ## v0.3.3
 - Fixed edge case where disabling a button in certain states would freeze it when re-enabled

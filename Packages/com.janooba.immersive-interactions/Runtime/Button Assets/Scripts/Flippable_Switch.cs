@@ -260,7 +260,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             {
                 foreach (var handleCol in handle.GetComponentsInChildren<Collider>())
                 {
-                    Debug.Log($"Ignoring lever collider {handleCol.name} for handle {handle.name}");
+                    Log($"Ignoring lever collider {handleCol.name} for handle {handle.name}");
                     Common.IgnoreCollider(transform, _triggers, handleCol);
                 }
             }
@@ -339,7 +339,7 @@ namespace JanoobaAssets.ImmersiveInteractions
 
             if (TimeSincePressed < cooldown || (!IsToggled && IsTriggered))
             {
-                //Debug.Log($"Cannot press, cooldown hasn't elapsed yet! TimeSincePressed: {TimeSincePressed}");
+                //Log($"Cannot press, cooldown hasn't elapsed yet! TimeSincePressed: {TimeSincePressed}");
                 return;
             }
 
@@ -351,7 +351,7 @@ namespace JanoobaAssets.ImmersiveInteractions
             }
             else
             {
-                Debug.Log($"Cannot interact, not owner!");
+                Log($"Cannot interact, not owner!");
             }
         }
 
@@ -758,6 +758,11 @@ namespace JanoobaAssets.ImmersiveInteractions
         {
             if (!_hasResetSinceEnabled) return;
             
+            if (Networking.IsClogged)
+            {
+                LogWarning("Network is clogged, interacting with this button may fail!");
+            }
+            
             if (isToggleSwitch)
             {
                 if (IsToggled)
@@ -792,7 +797,7 @@ namespace JanoobaAssets.ImmersiveInteractions
                     incomingCollider, incomingCollider.transform.position, incomingCollider.transform.rotation,
                     out var direction, out var distance))
             {
-                //Debug.Log($"Penetration: {incomingCollider.name}:{incomingCollider.GetType().Name} - {thisCollider.name}:{thisCollider.GetType().Name}");
+                //Log($"Penetration: {incomingCollider.name}:{incomingCollider.GetType().Name} - {thisCollider.name}:{thisCollider.GetType().Name}");
                 Vector3 originalPosition = transform.position;
                 float paddedDistance = distance + 0.001f;
                 transform.position += direction * paddedDistance;
@@ -958,16 +963,19 @@ namespace JanoobaAssets.ImmersiveInteractions
 
         public void Pressed()
         {
+            Log("Pressed");
             Pressed(false);
         }
 
         public void Pressed_On()
         {
+            Log("Pressed On");
             Pressed(true);
         }
 
         public void Pressed_Off()
         {
+            Log("Pressed Off");
             Pressed(false);
         }
         
@@ -997,6 +1005,7 @@ namespace JanoobaAssets.ImmersiveInteractions
         }
 
         #endregion
+
 #if !COMPILER_UDONSHARP
         private void OnDrawGizmosSelected()
         {
@@ -1023,5 +1032,19 @@ namespace JanoobaAssets.ImmersiveInteractions
             }
         }
 #endif
+        private void Log(string message)
+        {
+            Debug.Log($"[IMM SWITCH] {message}\nHierarchy: {Common.GetHierarchy(transform)}");
+        }
+        
+        private void LogWarning(string message)
+        {
+            Debug.LogWarning($"[IMM SWITCH] {message}\nHierarchy: {Common.GetHierarchy(transform)}");
+        }
+        
+        private void LogError(string message)
+        {
+            Debug.LogError($"[IMM SWITCH] {message}\nHierarchy: {Common.GetHierarchy(transform)}");
+        }
     }
 }
