@@ -1,0 +1,16 @@
+{
+    "name":"Immersive Interactions",
+    "id":"com.janooba.immersive-interactions",
+    "url":"https://janooba.github.io/immersive-interactions/index.json",
+    "author":{
+        "email":"me@janooba.com",
+        "name":"Janooba",
+        "url":"https://github.com/Janooba"
+    },
+    "description":"This project aims to provide the most comprehensive and physically accurate buttons and switches on the VRChat market.",
+    "infoLink":{
+        "url":"https://github.com/Janooba/immersive-interactions",
+        "text":"View on GitHub"
+    },
+    "bannerUrl":"banner.png"
+}
