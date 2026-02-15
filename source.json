@@ -12,5 +12,8 @@
         "url":"https://github.com/Janooba/immersive-interactions",
         "text":"View on GitHub"
     },
-    "bannerUrl":"banner.png"
+    "bannerUrl":"banner.png",
+    "githubRepos":[
+        "Janooba/immersive-interactions"
+    ]
 }
