@@ -103,6 +103,19 @@ namespace JanoobaAssets.ImmersiveInteractions
             rawDistance *= Mathf.Sign(Vector3.Dot(-axis.normalized, toIncoming.normalized));
             return rawDistance;
         }
+
+        public static string GetHierarchy(Transform transform)
+        {
+            string hierarchy = "";
+            Transform current = transform;
+            while (current != null)
+            {
+                hierarchy = current.name + "/" + hierarchy;
+                current = current.parent;
+            }
+
+            return hierarchy;
+        }
     }
    
 }
